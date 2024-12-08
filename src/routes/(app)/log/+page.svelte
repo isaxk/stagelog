@@ -104,12 +104,15 @@
 	$inspect(timeline);
 </script>
 
-<svelte:window
-	onfocus={() => {
-		initSubscriptions();
-		console.log('focus');
+
+<svelte:document
+	onvisibilitychange={() => {
+		if (!document.hidden) {
+			initSubscriptions();
+		}
 	}}
 />
+
 
 <svelte:head>
 	<title>Timeline - StageLog</title>

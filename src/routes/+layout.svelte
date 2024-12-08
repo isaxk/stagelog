@@ -8,7 +8,6 @@
 	supabase.client = data.supabase;
 	supabase.session = data.session;
 
-
 	onMount(() => {
 		if (supabase.client) {
 			supabase.client.auth.getUser().then((user) => {
@@ -25,11 +24,10 @@
 
 			const { data } =
 				supabase.client?.auth.onAuthStateChange(async (event, newSession) => {
-					if (newSession?.expires_at !== supabase.session?.expires_at) {
-						invalidate('supabase:auth');
-					}
-					const { user } = (await supabase.client?.auth.getUser())?.data ?? { user: null };
-					supabase.user = user;
+					// if (newSession?.expires_at !== supabase.session?.expires_at) {
+					// 	invalidate('supabase:auth');
+					// }
+					supabase.user = newSession?.user ?? null;
 					supabase.client
 						?.from('profiles')
 						.select('*')
@@ -39,9 +37,7 @@
 						});
 				}) ?? null;
 
-			if (data) {
-				return () => data.subscription.unsubscribe();
-			}
+			return () => data.subscription.unsubscribe();
 		}
 	});
 </script>

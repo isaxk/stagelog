@@ -83,7 +83,7 @@
 				<DropdownMenu.Group>
 					<Dialog.Root bind:open={datePickerOpen}>
 						<Dialog.Trigger>
-							<DropdownMenu.Item onclick={deleteLog}
+							<DropdownMenu.Item
 								><CalendarClock /> Change Date</DropdownMenu.Item
 							>
 						</Dialog.Trigger>

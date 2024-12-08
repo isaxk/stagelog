@@ -105,10 +105,6 @@
 </script>
 
 <svelte:window
-	onblur={async () => {
-		await supabase.client?.removeAllChannels();
-		console.log('blured');
-	}}
 	onfocus={() => {
 		initSubscriptions();
 		console.log('focus');

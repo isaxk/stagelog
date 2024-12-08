@@ -149,7 +149,7 @@
 							onchange={handleRatingChange}
 						/>
 					</div>
-					<div class="block lg:hidden">
+					<div class="flex lg:hidden">
 						{@render popout()}
 					</div>
 				{/if}
@@ -192,7 +192,7 @@
 							{/if}
 						</Dialog.Content>
 					</Dialog.Root>
-					<div class="flex min-w-20 justify-end">
+					<div class="flex min-w-20 justify-end items-center">
 						<Rating
 							value={log.rating ?? 5}
 							small
@@ -201,7 +201,7 @@
 						/>
 					</div>
 					{#if !profile}
-						<div class="block lg:hidden">
+						<div class="lg:hidden flex items-center">
 							{@render popout()}
 						</div>
 					{/if}

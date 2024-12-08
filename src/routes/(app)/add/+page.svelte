@@ -43,7 +43,6 @@
 		return true;
 	}
 
-
 	beforeNavigate(({ cancel }) => {
 		if (selectedItems.length > 0 && !subNav) {
 			if (
@@ -56,6 +55,12 @@
 		}
 	});
 </script>
+
+<svelte:head>
+	{#if !mobile}
+		<title>Add Shows - StageLog</title>
+	{/if}
+</svelte:head>
 
 {#if mobile}
 	<div class="z-10 flex h-16 items-center justify-center rounded-t-lg bg-zinc-100 p-4 drop-shadow">

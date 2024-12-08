@@ -155,7 +155,7 @@
 					<div class="text-lg font-medium">Rating:</div>
 					<Rating bind:value={rating} />
 					<div class="py-2 text-lg font-medium">Comments:</div>
-					<Textarea class="h-72 resize-none" />
+					<Textarea class="h-72 resize-none" bind:value={comments}/>
 					<div class="h-4"></div>
 					<Dialog.Close
 						type="submit"

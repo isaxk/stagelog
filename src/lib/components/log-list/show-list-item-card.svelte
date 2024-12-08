@@ -14,7 +14,7 @@
 			{show.name}
 		</div>
 		<div class="text-md flex-grow">
-			<!-- {show.playwright} -->
+			{show.playwright}
 		</div>
 		<div class="flex items-center pt-1">
 			{#each show.tags as tag}

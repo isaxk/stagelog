@@ -6,7 +6,7 @@
 	import { page } from '$app/stores';
 	import DesktopSidebar from '$lib/components/layout/desktop-sidebar.svelte';
 	import MobileFooter from '$lib/components/layout/mobile-footer.svelte';
-	import { invalidate } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { fade, scale } from 'svelte/transition';
 	import { browser } from '$app/environment';
@@ -19,6 +19,10 @@
 			provider: 'google'
 		});
 	}
+
+	if(browser && !session && !$page.url.pathname.includes('user')) {
+		goto("/")
+	}
 </script>
 
 <div
@@ -27,7 +31,7 @@
 >
 	<div class="flex w-full max-w-screen-lg overflow-visible">
 		<DesktopSidebar />
-		<div class="w-full border-r drop-shadow-sm bg-zinc-50">
+		<div class="w-full lg:drop-shadow bg-zinc-50">
 			{@render children()}
 		</div>
 	</div>

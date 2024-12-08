@@ -29,7 +29,7 @@
 		});
 	}
 
-	onMount(() => {
+	function initSubscriptions() {
 		if (!supabase.client) return;
 		const userid = data.session?.user.id;
 		supabase.client
@@ -93,7 +93,9 @@
 				}
 			)
 			.subscribe();
-	});
+	}
+
+	onMount(initSubscriptions);
 
 	onDestroy(() => {
 		supabase.client?.removeAllChannels();
@@ -101,6 +103,14 @@
 
 	$inspect(timeline);
 </script>
+
+<svelte:window
+	onblur={() => {
+		console.log('blured');
+		supabase.client?.removeAllChannels();
+	}}
+	onfocus={() => initSubscriptions()}
+/>
 
 <svelte:head>
 	<title>Timeline - StageLog</title>
@@ -113,7 +123,7 @@
 	<Drawer.Root
 		shouldScaleBackground
 		onOpenChange={(e) => {
-			if (e===true) preloadDrawerData();
+			if (e === true) preloadDrawerData();
 		}}
 	>
 		<Drawer.Trigger

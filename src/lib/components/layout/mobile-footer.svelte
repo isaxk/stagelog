@@ -18,7 +18,7 @@
 </script>
 
 <div
-	class="fixed bottom-0 left-0 right-0 flex h-16 items-center justify-evenly bg-white drop-shadow lg:hidden"
+	class="fixed bottom-0 left-0 right-0 flex h-16 items-center justify-evenly bg-white drop-shadow lg:hidden ios-safe-bottom"
 >
 	<a
 		href="/timeline"
@@ -62,3 +62,9 @@
 		/>
 	</a>
 </div>
+
+<style>
+	.ios-safe-bottom {
+		padding-bottom: env(safe-area-inset-bottom) !important;
+	}
+</style>

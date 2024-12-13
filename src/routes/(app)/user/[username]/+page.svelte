@@ -119,7 +119,7 @@
 		<div class="w-full">
 			<div class="font-medium">Username</div>
 			<input
-				class="w-full rounded border border-border bg-white p-3 drop-shadow"
+				class="w-full rounded border border-border bg-card p-3 drop-shadow"
 				type="text"
 				bind:value={usernameValue}
 			/>
@@ -131,10 +131,10 @@
 	</div>
 {/snippet}
 
-<div class="w-full max-w-screen-md">
-	<div class="relative flex h-72 w-full flex-col gap-2 lg:h-52">
-		<div class="h-32 bg-blue-200"></div>
-		<div class="absolute left-0 top-[75px] flex justify-center lg:top-24">
+<div class="w-full">
+	<div class="relative top-0 flex h-60 w-full flex-col gap-4 bg-background lg:h-52">
+		<div class="min-h-32 bg-blue-200"></div>
+		<div class="absolute left-0 top-[76px] flex justify-center lg:top-24">
 			<div class="flex w-full max-w-screen-md gap-4 px-4">
 				<img
 					src={avatarUrl}
@@ -156,7 +156,7 @@
 									>Edit Profile</CustomButton
 								></Dialog.Trigger
 							>
-							<Dialog.Content class="bg-zinc-50">
+							<Dialog.Content class="bg-background">
 								<Dialog.Header>
 									<Dialog.Title>Edit Profile</Dialog.Title>
 								</Dialog.Header>
@@ -182,27 +182,30 @@
 									class="fixed inset-0 bg-black/80 backdrop-blur-[1px] backdrop-saturate-50"
 								/>
 								<Drawer.Content
-									class="fixed bottom-0 left-0 right-0 z-20 flex h-[95%] flex-col rounded-t-lg bg-zinc-50 outline-none"
+									class="fixed bottom-0 left-0 right-0 z-20 flex h-[95%] flex-col rounded-t-lg bg-background outline-none"
 								>
 									<div
-										class="z-20 flex h-16 items-center justify-center rounded-t-lg bg-zinc-100 p-4 drop-shadow"
+										class="z-20 flex h-16 items-center justify-center rounded-t-lg bg-muted p-4 drop-shadow"
 									>
 										<div class="flex w-full max-w-screen-sm items-center">
 											<Drawer.Close class="w-20 py-4 text-left text-blue-400">Cancel</Drawer.Close>
 											<div class="flex-grow text-center font-semibold">Edit Profile</div>
 											{#if updatingProfile}
-												<div class="flex h-full w-24 items-center justify-center -mr-4">
+												<div class="-mr-4 flex h-full w-24 items-center justify-center">
 													<Spinner />
 												</div>
 											{:else}
 												<button
 													onclick={updateProfile}
 													class="w-20 text-right font-medium {usernameValue ===
-														data.profile.username && bioValue === data.profile.bio && newAvatar===null
+														data.profile.username &&
+													bioValue === data.profile.bio &&
+													newAvatar === null
 														? 'text-zinc-700'
 														: 'text-blue-500'}"
 													disabled={usernameValue === data.profile.username &&
-														bioValue === data.profile.bio && newAvatar===null}>Done</button
+														bioValue === data.profile.bio &&
+														newAvatar === null}>Done</button
 												>
 											{/if}
 										</div>
@@ -221,15 +224,17 @@
 				{/if}
 			</div>
 		</div>
-		<div class="block pl-4 pt-4 lg:hidden">
+		<div class="block pl-4 lg:hidden">
 			{@render infos()}
 		</div>
 	</div>
-	<div class="-mt-6 px-4 lg:mt-4">
+	<div class="mt-6 lg:mt-4 px-4 z-20">
 		{bio}
 	</div>
 	<div class="pt-4 lg:p-4">
-		<div class="min-h-96 border border-border bg-zinc-50 p-4 lg:rounded-md lg:drop-shadow-sm">
+		<div
+			class="min-h-96 border-t border-border bg-background p-4 lg:rounded-md lg:border-x lg:drop-shadow-sm"
+		>
 			<LogListController {data}>
 				{#snippet children(groupedByYear: YearGroup[])}
 					{#if groupedByYear.length > 0}

@@ -4,6 +4,7 @@
 	import { invalidate } from '$app/navigation';
 	import { supabase } from '$lib/supabase/client.svelte';
 	let { children, data } = $props();
+	import { ModeWatcher } from 'mode-watcher';
 
 	supabase.client = data.supabase;
 	supabase.session = data.session;
@@ -75,5 +76,7 @@
 		}
 	});
 </script>
+
+<ModeWatcher />
 
 {@render children()}

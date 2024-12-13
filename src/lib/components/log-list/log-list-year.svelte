@@ -7,7 +7,7 @@
 </script>
 
 <div
-	class="flex flex-col gap-2 bg-gradient-to-b to-zinc-50"
+	class="flex flex-col gap-2 bg-gradient-to-b to-zinc-50 pb-8"
 	in:fly={{ duration: 200 }}
 	out:fly={{ duration: 200 }}
 >

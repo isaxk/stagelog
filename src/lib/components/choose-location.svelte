@@ -48,7 +48,7 @@
 </script>
 
 {#if mobile}
-	<div class="z-20 flex h-16 items-center justify-center rounded-t-lg bg-zinc-100 p-4 drop-shadow">
+	<div class="z-20 flex h-16 items-center justify-center rounded-t-lg bg-muted p-4 drop-shadow">
 		<div class="flex w-full max-w-screen-sm items-center">
 			{#if currentStage === 0}
 				<Drawer.Close class="w-20 py-4 text-left text-blue-400">Cancel</Drawer.Close>
@@ -68,7 +68,7 @@
 			</div>
 			<Drawer.Close
 				onclick={() => onchoose(selectedLocation, selectedDate, rating, comments, id)}
-				class="w-20 text-right font-medium {currentStage !== 2 ? 'text-zinc-500' : 'text-blue-500'}"
+				class="w-20 text-right font-medium {currentStage !== 2 ? 'text-muted-foreground' : 'text-blue-500'}"
 				disabled={currentStage !== 2}>Done</Drawer.Close
 			>
 		</div>
@@ -78,7 +78,8 @@
 		<div class="flex gap-4">
 			<button
 				onclick={() => incrementStage(-1)}
-				class="flex w-14 items-center gap-1 text-left text-blue-400"
+				disabled={currentStage<1}
+				class="flex w-14 items-center gap-1 text-left text-blue-400 disabled:text-muted-foreground"
 				><ArrowLeft size={16} /> Back</button
 			>
 			<div class="font-semibold">
@@ -109,7 +110,7 @@
 									selectedLocation = production;
 									incrementStage(1);
 								}}
-								class="flex h-max w-full items-center rounded border border-border bg-white p-3 text-left drop-shadow-sm"
+								class="flex h-max w-full items-center rounded border border-border bg-card p-3 text-left drop-shadow-sm"
 							>
 								<div
 									class="min-w-0 flex-grow overflow-hidden text-ellipsis text-nowrap text-lg font-medium"
@@ -135,7 +136,7 @@
 									selectedLocation = { custom: textboxValue };
 									incrementStage(1);
 								}}
-								class="px-3 py-4 pl-4 text-blue-500 disabled:text-zinc-500"
+								class="px-3 py-4 pl-4 text-blue-500 disabled:text-foreground-muted"
 								disabled={textboxValue.length < 1}>Next</button
 							>
 						</form> -->
@@ -160,7 +161,7 @@
 					<div class="h-4"></div>
 					<Dialog.Close
 						type="submit"
-						class="w-full"
+						class="w-full hidden lg:block"
 						onclick={() => onchoose(selectedLocation, selectedDate, rating, comments, id)}
 						><CustomButton onclick={() => {}}>Done</CustomButton></Dialog.Close
 					>

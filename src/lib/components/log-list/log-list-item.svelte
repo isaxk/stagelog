@@ -88,7 +88,7 @@
 </script>
 
 <Dialog.Root bind:open={datePickerOpen}>
-	<Dialog.Content class="h-96 w-max rounded-lg bg-zinc-50">
+	<Dialog.Content class="h-96 w-max rounded-lg bg-background">
 		<Calendar
 			type="single"
 			value={parseDate(log.date ?? '')}
@@ -132,7 +132,7 @@
 			{/if}
 		</button>
 		<div
-			class="flex h-full min-w-0 flex-grow items-center gap-2 pr-3 rounded border border-border/50 bg-white p-2 drop-shadow {!lg.current &&
+			class="flex h-full min-w-0 flex-grow items-center gap-2 pr-3 rounded border border-border/50 bg-card p-2 drop-shadow {!lg.current &&
 			!log.comments &&
 			!lg.current &&
 			profile !== null
@@ -165,7 +165,7 @@
 				>
 					<Dialog.Root>
 						<Dialog.Trigger
-							class="flex h-full w-full min-w-0 flex-grow text-left italic text-zinc-600 outline-none lg:items-end lg:justify-end lg:text-right"
+							class="flex h-full w-full min-w-0 flex-grow text-left italic text-muted-foreground outline-none lg:items-end lg:justify-end lg:text-right"
 						>
 							{#if log.comments}
 								<p
@@ -177,7 +177,7 @@
 								<p class="text-xs">Add comment</p>
 							{/if}
 						</Dialog.Trigger>
-						<Dialog.Content class="bg-zinc-50">
+						<Dialog.Content class="bg-background">
 							<Dialog.Header>
 								<Dialog.Title>{show.name}</Dialog.Title>
 							</Dialog.Header>
@@ -245,7 +245,7 @@
 			{/if}
 			{#if !log.comments && !lg.current && profile!==null}
 				<div class="flex h-full flex-col">
-					<div class="flex-grow text-white">d</div>
+					<div class="flex-grow text-transparent">d</div>
 					<Rating
 						bind:value={log.rating}
 						small

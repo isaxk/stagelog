@@ -11,7 +11,7 @@ export const load: LayoutServerLoad = async ({ params, locals: { supabase, safeG
 	const timelineRes = await supabase
 		.from('log_entries')
 		.select('*')
-		.eq('user_id', profile.id);
+		.eq('user_id', profile?.id);
 
 	const timeline = timelineRes.data ?? [];
 
@@ -25,8 +25,8 @@ export const load: LayoutServerLoad = async ({ params, locals: { supabase, safeG
 		.eq('in_review', false);
 	const shows = showsResponse.data ?? [];
 
-	const followersRes = await supabase.from('follows').select('*').eq('following', profile.id);
-	const followingRes = await supabase.from('follows').select('*').eq('follower', profile.id);
+	const followersRes = await supabase.from('follows').select('*').eq('following', profile?.id);
+	const followingRes = await supabase.from('follows').select('*').eq('follower', profile?.id);
 	const followers = followersRes.data ?? [];
 	const following = followingRes.data ?? [];
 

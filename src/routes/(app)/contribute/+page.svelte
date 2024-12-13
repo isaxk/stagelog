@@ -68,7 +68,7 @@
 			</div>
 		</div>
 		<div class="h-6"></div>
-		<div class="rounded border border-border bg-zinc-50 p-4 drop-shadow-sm">
+		<div class="rounded border border-border bg-background p-4 drop-shadow-sm">
 			<div class="pb-4 font-semibold">Rules:</div>
 			<ul class="flex flex-col gap-1">
 				<li class="flex items-center gap-1"><Check size={15} /> Must not already be listed</li>
@@ -81,7 +81,7 @@
 			</ul>
 		</div>
 		<div class="h-4"></div>
-		<div class="rounded border border-border bg-zinc-50 p-4 drop-shadow-sm">
+		<div class="rounded border border-border bg-background p-4 drop-shadow-sm">
 			<div class="pb-4 font-semibold">Moderation Notice:</div>
 			<div>
 				Submissions are subject to moderation. Once your contribution has been submitted it will be

@@ -23,13 +23,13 @@
 </script>
 
 <div
-	class="flex min-h-screen w-full justify-center bg-zinc-50"
+	class="flex min-h-screen w-full justify-center bg-background text-foreground"
 	data-vaul-drawer-wrapper
 >
 	<div class="flex w-full max-w-screen-lg">
 		<DesktopSidebar />
 		{#key data.url}
-			<div class="w-full pb-20 lg:pb-0 flex-grow bg-zinc-50 lg:drop-shadow" in:scale={{start:1.01, duration: 200}}>
+			<div class="w-full pb-20 lg:pb-0 flex-grow bg-background lg:drop-shadow dark:lg:border-x" in:scale={{start:1.005, duration: 150}}>
 				{@render children()}
 			</div>
 		{/key}
@@ -41,6 +41,6 @@
 
 <style lang="postcss">
 	:global(body) {
-		@apply bg-zinc-50;
+		@apply bg-background overflow-x-hidden;
 	}
 </style>

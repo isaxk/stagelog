@@ -6,7 +6,7 @@
 	let imageLoaded = $state(false);
 </script>
 
-<div class="z-0 flex w-full gap-3 rounded bg-white p-3 text-left drop-shadow-md">
+<div class="z-0 flex w-full gap-3 rounded bg-card p-3 text-left drop-shadow-md">
 	<div
 		class="relative aspect-square h-20 min-w-20 overflow-hidden rounded bg-zinc-400 object-cover"
 	>

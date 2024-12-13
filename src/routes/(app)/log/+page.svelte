@@ -76,7 +76,7 @@
 		</div>
 	</div>
 {:else}
-	<div class="sticky top-0 z-20 flex h-24 w-full items-center bg-zinc-50 p-4">
+	<div class="sticky top-0 z-20 flex h-24 w-full items-center bg-background p-4">
 		<div class="flex flex-grow flex-col">
 			<div class="font-serif text-4xl font-medium lg:text-3xl">Log Shows</div>
 			<div class="flex gap-2">
@@ -101,7 +101,7 @@
 		type="text"
 		onkeydown={search}
 		bind:value={query}
-		class="w-full rounded border p-3 drop-shadow"
+		class="w-full rounded border p-3 bg-card drop-shadow transition-all outline-none focus:outline-blue-500 -outline-offset-1"
 		placeholder="Search for shows..."
 	/>
 	<div class="flex min-h-0 flex-grow flex-col gap-2 overflow-y-scroll py-4">
@@ -132,7 +132,7 @@
 </div>
 
 {#if mobile && selectedItems.length > 0}
-	<div class="text flex h-20 items-center bg-white text-center drop-shadow-xl">
+	<div class="text flex h-20 items-center bg-card text-center drop-shadow-xl">
 		<Drawer.Close
 			class="flex w-full flex-col items-center justify-center font-medium text-blue-600"
 			onclick={handleTimeline}

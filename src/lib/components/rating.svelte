@@ -24,7 +24,7 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 {#if value}
-	<Drawer.Root bind:open={drawer} shouldScaleBackground>
+	<Drawer.Root bind:open={drawer}>
 		<Drawer.Portal>
 			<Drawer.Overlay
 				class="fixed inset-0 z-50 bg-black/80 backdrop-blur-[1px] backdrop-saturate-50"

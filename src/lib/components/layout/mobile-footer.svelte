@@ -15,6 +15,13 @@
 			}
 		});
 	}
+
+	onMount(()=>{
+		preloadData('/timeline')
+		preloadData('/log')
+		preloadData('/contribute')
+		preloadData(`/user/${supabase.userProfile?.username}`)
+	})
 </script>
 
 <div

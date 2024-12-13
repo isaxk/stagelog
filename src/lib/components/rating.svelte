@@ -47,7 +47,7 @@
 	</Drawer.Root>
 	<div
 		class="flex {small ? '' : 'h-10'} items-center text-amber-500"
-		ontouchstart={() => (drawer = true)}
+		ontouchend={() => (drawer = true)}
 		onmouseenter={() => (hovered = !profile)}
 		onmouseleave={() => (hovered = false)}
 	>

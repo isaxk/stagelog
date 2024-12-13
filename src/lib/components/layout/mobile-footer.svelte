@@ -3,7 +3,7 @@
 	import { Drawer } from 'vaul-svelte';
 	import { supabase } from '$lib/supabase/client.svelte';
 	import { onMount } from 'svelte';
-	import { preloadData } from '$app/navigation';
+	import { goto, preloadData } from '$app/navigation';
 	import { page } from '$app/stores';
 
 	let preloadedData: any = $state(null);
@@ -29,6 +29,7 @@
 >
 	<a
 		href="/timeline"
+		onmousedown={()=>goto('/timeline')}
 		class="flex w-20 flex-col items-center text-center text-xs {$page.url.pathname === '/timeline'
 			? 'text-blue-500'
 			: ''}"
@@ -38,6 +39,7 @@
 
 	<a
 		href="/log"
+		onmousedown={()=>goto('/log')}
 		class="flex w-20 flex-col items-center text-center text-xs {$page.url.pathname === '/log'
 			? 'text-blue-500'
 			: ''}"
@@ -47,6 +49,7 @@
 
 	<a
 		href="/contribute"
+		onmousedown={()=>goto('/contribute')}
 		class="flex w-20 flex-col items-center text-center text-xs {$page.url.pathname === '/contribute'
 			? 'text-blue-500'
 			: ''}"
@@ -57,6 +60,7 @@
 
 	<a
 		href="/user/{supabase.userProfile?.username}"
+		onmousedown={()=>goto(`/user/${supabase.userProfile?.username}`)}
 		class="flex w-20 flex-col items-center text-center text-xs"
 	>
 		<img

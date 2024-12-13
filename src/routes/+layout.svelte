@@ -19,6 +19,23 @@
 						.then(({ data }) => {
 							supabase.userProfile = data ? data[0] : null;
 						});
+					supabase
+						.client!.channel('profile-updates')
+						.on(
+							'postgres_changes',
+							{
+								event: 'UPDATE',
+								schema: 'public',
+								table: 'profiles',
+								filter: `id=eq.${user.data.user?.id}`
+							},
+							(payload) => {
+								console.log(payload);
+								console.log('test');
+								supabase.userProfile = payload.new[0] ?? payload.new;
+							}
+						)
+						.subscribe();
 				}
 			});
 
@@ -35,6 +52,23 @@
 						.then(({ data }) => {
 							supabase.userProfile = data ? data[0] : null;
 						});
+					supabase
+						.client!.channel('profile-updates')
+						.on(
+							'postgres_changes',
+							{
+								event: 'UPDATE',
+								schema: 'public',
+								table: 'profiles',
+								filter: `id=eq.${supabase.user?.id}`
+							},
+							(payload) => {
+								console.log(payload);
+								console.log('test');
+								supabase.userProfile = payload.new[0] ?? payload.new;
+							}
+						)
+						.subscribe();
 				}) ?? null;
 
 			return () => data.subscription.unsubscribe();

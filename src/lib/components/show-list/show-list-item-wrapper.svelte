@@ -9,12 +9,16 @@
 	import ShowListItemCard from './show-list-item-card.svelte';
 	import * as Dialog from '../ui/dialog';
 	import type { Tables } from '$lib/supabase/types';
+	import { MediaQuery } from 'svelte/reactivity';
 
 	let { show, onsubmit, mobile } = $props();
 
-	async function handleSubmit(location: Tables<'productions'>, date: any, rating: number, comments: string) {
+	const lg = new MediaQuery('min-width: 1000px')
+
+	async function handleSubmit(location: Tables<'districts'>, date: any, rating: number, comments: string, show_id: number) {
 		onsubmit({
-			production_id: location.id,
+			location: location.name,
+			show_id,
 			date: `${date.year}, ${date.month}, ${date.day}`,
 			rating,
 			comments
@@ -22,20 +26,20 @@
 	}
 </script>
 
-{#if mobile}
-	<Drawer.NestedRoot>
+{#if !lg.current}
+	<Drawer.Root shouldScaleBackground>
 		<Drawer.Trigger class="z-0">
 			<ShowListItemCard {show} />
 		</Drawer.Trigger>
 		<Drawer.Portal>
 			<Drawer.Overlay class="fixed inset-0 bg-black/80 backdrop-blur-[1px] backdrop-saturate-50" />
 			<Drawer.Content
-				class="fixed bottom-0 left-0 right-0 flex h-[90%] flex-col rounded-t-lg bg-zinc-50 outline-none"
+				class="fixed bottom-0 z-20 left-0 right-0 flex h-[95%] flex-col rounded-t-lg bg-zinc-50 outline-none"
 			>
-				<ChooseLocation id={show.id} onchoose={handleSubmit} {mobile} />
+				<ChooseLocation id={show.id} onchoose={handleSubmit} mobile={true} />
 			</Drawer.Content>
 		</Drawer.Portal>
-	</Drawer.NestedRoot>
+	</Drawer.Root>
 {:else}
 	<Dialog.Root>
 		<Dialog.Trigger><ShowListItemCard {show} /></Dialog.Trigger>

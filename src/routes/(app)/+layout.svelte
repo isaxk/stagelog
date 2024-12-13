@@ -1,15 +1,11 @@
 <script lang="ts">
-	import { MediaQuery } from 'svelte/reactivity';
-	import { Heart, List, Pencil, SquarePen, User, Users } from 'lucide-svelte';
-	import { Drawer } from 'vaul-svelte';
-	import AddShows from './add/+page.svelte';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import DesktopSidebar from '$lib/components/layout/desktop-sidebar.svelte';
 	import MobileFooter from '$lib/components/layout/mobile-footer.svelte';
-	import { goto, invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { fade, scale } from 'svelte/transition';
-	import { browser } from '$app/environment';
 	let { children, data } = $props();
 
 	let { supabase, session } = $state(data);
@@ -20,20 +16,23 @@
 		});
 	}
 
-	if(browser && !session && !$page.url.pathname.includes('user')) {
-		goto("/")
+
+	if (browser && !session && !$page.url.pathname.includes('user')) {
+		goto('/');
 	}
 </script>
 
 <div
-	class="flex min-h-screen w-full justify-center overflow-visible bg-zinc-50"
+	class="flex min-h-screen w-full justify-center bg-zinc-50"
 	data-vaul-drawer-wrapper
 >
-	<div class="flex w-full max-w-screen-lg overflow-visible">
+	<div class="flex w-full max-w-screen-lg">
 		<DesktopSidebar />
-		<div class="w-full lg:drop-shadow bg-zinc-50">
-			{@render children()}
-		</div>
+		{#key data.url}
+			<div class="w-full pb-20 lg:pb-0 flex-grow bg-zinc-50 lg:drop-shadow" in:scale={{start:1.01, duration: 200}}>
+				{@render children()}
+			</div>
+		{/key}
 	</div>
 </div>
 {#if session?.user}

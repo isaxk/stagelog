@@ -14,9 +14,9 @@
 
 	let { id, onchoose, mobile } = $props();
 
-	let productions: Tables<'productions'>[] = $state([]);
+	let productions: Tables<'districts'>[] = $state([]);
 	let selectedDate: DateValue | null = $state(null);
-	let selectedLocation: Tables<'productions'> | null = $state(null);
+	let selectedLocation: Tables<'districts'> | null = $state(null);
 	let rating: number = $state(5);
 	let comments: string = $state('');
 
@@ -28,17 +28,18 @@
 
 	onMount(async () => {
 		if (!supabase.client) return;
-		const productionsResponse = await supabase.client
-			.from('productions')
-			.select('*')
-			.eq('show', id)
-			.eq('tour', false);
-		const toursResponse = await supabase.client
-			.from('productions')
-			.select('*')
-			.eq('show', id)
-			.eq('tour', true);
-		productions = [...(productionsResponse.data ?? []), ...(toursResponse.data ?? [])];
+		// const productionsResponse = await supabase.client
+		// 	.from('productions')
+		// 	.select('*')
+		// 	.eq('show', id)
+		// 	.eq('tour', false);
+		// const toursResponse = await supabase.client
+		// 	.from('productions')
+		// 	.select('*')
+		// 	.eq('show', id)
+		// 	.eq('tour', true);
+		const locations = await supabase.client.from('districts').select('*');
+		productions = locations.data??[];
 	});
 
 	function incrementStage(increment: number) {
@@ -66,7 +67,7 @@
 				{/if}
 			</div>
 			<Drawer.Close
-				onclick={() => onchoose(selectedLocation, selectedDate, rating, comments)}
+				onclick={() => onchoose(selectedLocation, selectedDate, rating, comments, id)}
 				class="w-20 text-right font-medium {currentStage !== 2 ? 'text-zinc-500' : 'text-blue-500'}"
 				disabled={currentStage !== 2}>Done</Drawer.Close
 			>
@@ -113,7 +114,7 @@
 								<div
 									class="min-w-0 flex-grow overflow-hidden text-ellipsis text-nowrap text-lg font-medium"
 								>
-									{production.district ?? production.tour_name}
+									{production.name}
 								</div>
 								{#if production.tour}
 									<div class="rounded-full bg-zinc-300 px-3 py-1 text-xs">TOUR</div>
@@ -153,14 +154,14 @@
 			{:else if currentStage === 2}
 				<form class="h-full w-full flex-col p-4" onsubmit={(e) => e.preventDefault()}>
 					<div class="text-lg font-medium">Rating:</div>
-					<Rating bind:value={rating} />
+					<Rating bind:value={rating} small={false} profile={false}/>
 					<div class="py-2 text-lg font-medium">Comments:</div>
 					<Textarea class="h-72 resize-none" bind:value={comments}/>
 					<div class="h-4"></div>
 					<Dialog.Close
 						type="submit"
 						class="w-full"
-						onclick={() => onchoose(selectedLocation, selectedDate, rating, comments)}
+						onclick={() => onchoose(selectedLocation, selectedDate, rating, comments, id)}
 						><CustomButton onclick={() => {}}>Done</CustomButton></Dialog.Close
 					>
 				</form>

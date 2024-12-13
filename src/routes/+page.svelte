@@ -6,7 +6,7 @@
 
 	$effect(()=>{
 		if(browser && supabase.user) {
-			goto('/log')
+			goto('/timeline')
 		}
 	})
 

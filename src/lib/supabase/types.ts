@@ -58,14 +58,51 @@ export type Database = {
         }
         Relationships: []
       }
+      follows: {
+        Row: {
+          created_at: string
+          follower: string
+          following: string
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          follower?: string
+          following: string
+          id?: number
+        }
+        Update: {
+          created_at?: string
+          follower?: string
+          following?: string
+          id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "follows_follower_fkey"
+            columns: ["follower"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "follows_following_fkey"
+            columns: ["following"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       log_entries: {
         Row: {
           comments: string | null
           created_at: string
           date: string | null
           id: number
-          production_id: number | null
+          location: string | null
           rating: number | null
+          show_id: number | null
           user_id: string
         }
         Insert: {
@@ -73,8 +110,9 @@ export type Database = {
           created_at?: string
           date?: string | null
           id?: never
-          production_id?: number | null
+          location?: string | null
           rating?: number | null
+          show_id?: number | null
           user_id?: string
         }
         Update: {
@@ -82,16 +120,24 @@ export type Database = {
           created_at?: string
           date?: string | null
           id?: never
-          production_id?: number | null
+          location?: string | null
           rating?: number | null
+          show_id?: number | null
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "log_entries_production_id_fkey"
-            columns: ["production_id"]
+            foreignKeyName: "log_entries_location_fkey"
+            columns: ["location"]
             isOneToOne: false
-            referencedRelation: "productions"
+            referencedRelation: "districts"
+            referencedColumns: ["name"]
+          },
+          {
+            foreignKeyName: "log_entries_show_id_fkey"
+            columns: ["show_id"]
+            isOneToOne: false
+            referencedRelation: "shows"
             referencedColumns: ["id"]
           },
         ]
@@ -159,18 +205,21 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          bio: string | null
           id: string
           last_name: string | null
           username: string | null
         }
         Insert: {
           avatar_url?: string | null
+          bio?: string | null
           id: string
           last_name?: string | null
           username?: string | null
         }
         Update: {
           avatar_url?: string | null
+          bio?: string | null
           id?: string
           last_name?: string | null
           username?: string | null
@@ -184,7 +233,7 @@ export type Database = {
           id: number
           image_url: string | null
           name: string
-          playwright: number | null
+          playwright: string | null
           tags: string[] | null
         }
         Insert: {
@@ -193,7 +242,7 @@ export type Database = {
           id?: number
           image_url?: string | null
           name: string
-          playwright?: number | null
+          playwright?: string | null
           tags?: string[] | null
         }
         Update: {
@@ -202,15 +251,36 @@ export type Database = {
           id?: number
           image_url?: string | null
           name?: string
-          playwright?: number | null
+          playwright?: string | null
           tags?: string[] | null
+        }
+        Relationships: []
+      }
+      wishlist: {
+        Row: {
+          created_at: string
+          id: number
+          production_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          production_id: number
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          production_id?: number
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "shows_playwright_fkey"
-            columns: ["playwright"]
+            foreignKeyName: "wishlist_production_id_fkey"
+            columns: ["production_id"]
             isOneToOne: false
-            referencedRelation: "playwrights"
+            referencedRelation: "productions"
             referencedColumns: ["id"]
           },
         ]

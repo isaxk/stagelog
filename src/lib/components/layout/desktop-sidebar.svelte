@@ -17,7 +17,7 @@
 	{#if supabase.session}
 		<div class="flex h-20 items-center py-4 font-serif text-4xl font-semibold">StageLog</div>
 
-		<SidebarItem href="/log" label="My Log">
+		<SidebarItem href="/timeline" label="Timeline">
 			{#snippet icon(size: number, weight: number)}
 				<List {size} strokeWidth={weight} />
 			{/snippet}
@@ -27,21 +27,26 @@
 				<Heart {size} strokeWidth={weight} />
 			{/snippet}
 		</SidebarItem> -->
-		<SidebarItem href="/friends" label="Friends">
+		<!-- <SidebarItem href="/friends" label="Following">
 			{#snippet icon(size: number, weight: number)}
 				<Users {size} strokeWidth={weight} />
 			{/snippet}
-		</SidebarItem>
-		<SidebarItem href="/add" label="Add Shows">
+		</SidebarItem> -->
+		<SidebarItem href="/log" label="Log Shows">
 			{#snippet icon(size: number, weight: number)}
 				<SquarePen {size} strokeWidth={weight} />
+			{/snippet}
+		</SidebarItem>
+		<SidebarItem href="/contribute" label="Contibute">
+			{#snippet icon(size: number, weight: number)}
+				<Users {size} strokeWidth={weight} />
 			{/snippet}
 		</SidebarItem>
 		<SidebarItem href="/user/{supabase.userProfile?.username}" label="Profile">
 			{#snippet icon()}
 				<img
 					src={supabase.userProfile?.avatar_url}
-					class="w-[25px] rounded-full border border-border drop-shadow-xl"
+					class="w-[28px] aspect-square object-cover rounded-full border border-border drop-shadow-xl"
 					alt=""
 				/>
 			{/snippet}

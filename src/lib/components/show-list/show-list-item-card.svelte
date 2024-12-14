@@ -54,14 +54,14 @@
 				{/each}
 			</div>
 			{#if creator}
-				<a class="flex items-center gap-1" href="/user/{creator.username}">
+				<div class="flex items-center gap-1">
 					<img
 						src={creator.avatar_url}
 						class="aspect-square h-5 w-5 rounded-full object-cover"
 						alt=""
 					/>
 					{creator.username}
-				</a>
+				</div>
 			{/if}
 		</div>
 	</div>

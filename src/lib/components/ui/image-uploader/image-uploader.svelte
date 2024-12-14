@@ -5,6 +5,10 @@ import { Upload } from 'lucide-svelte';
 	let { class: className = '', defaultSrc = '', file = $bindable(null) } = $props();
 
 	let imgSrc: string | null = $state(defaultSrc);
+
+	$effect(()=>{
+		if(!file) imgSrc = null;
+	})
 </script>
 
 <input
@@ -18,6 +22,9 @@ import { Upload } from 'lucide-svelte';
 		if (f) {
 			file=f;
 			imgSrc = URL.createObjectURL(f);
+		}
+		else {
+			imgSrc = null;
 		}
 	}}
 />

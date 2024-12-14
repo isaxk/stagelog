@@ -5,6 +5,7 @@
 	import ImageUploader from '$lib/components/ui/image-uploader/image-uploader.svelte';
 	import { supabase } from '$lib/supabase/client.svelte';
 	import { Check, X } from 'lucide-svelte';
+	import { toast } from 'svelte-sonner';
 
 	let selectedFile = $state(null);
 	let name: string | null = $state(null);
@@ -12,24 +13,42 @@
 	let category: string | null = $state(null);
 
 	async function handleSubmit() {
-		if (
-			!selectedFile ||
-			!name ||
-			name.length < 2 ||
-			!playwright ||
-			playwright.length < 2 ||
-			!category ||
-			category.length < 2
-		)
-			return;
-		const path = `/public/${name}_${Date.now()}.jpg`;
-		const storage = await supabase.client?.storage.from('show_images').upload(path, selectedFile);
-		console.log(storage)
-		const { data } = await supabase.client!.storage.from('show_images').getPublicUrl(path);
-		const response = await supabase
-			.client!.from('shows')
-			.insert([{ name, playwright, tags: [category], image_url: data.publicUrl }])
-			.select('*');
+		toast.promise(
+			async () => {
+				if (
+					!selectedFile ||
+					!name ||
+					name.length < 2 ||
+					!playwright ||
+					playwright.length < 2 ||
+					!category ||
+					category.length < 2
+				) {
+					throw 'Incomplete data';
+					return;
+				}
+
+				const path = `/public/${name}_${Date.now()}.jpg`;
+				const storage = await supabase.client?.storage
+					.from('show_images')
+					.upload(path, selectedFile);
+				console.log(storage);
+				const { data } = await supabase.client!.storage.from('show_images').getPublicUrl(path);
+				const response = await supabase
+					.client!.from('shows')
+					.insert([{ name, playwright, tags: [category], image_url: data.publicUrl }])
+					.select('*');
+				selectedFile = null;
+				name = null;
+				playwright = null;
+				category = null;
+			},
+			{
+				loading: 'Loading...',
+				success: () => 'Submitted. Review process is underway.',
+				error: 'Error'
+			}
+		);
 	}
 </script>
 

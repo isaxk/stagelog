@@ -3,9 +3,12 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import DesktopSidebar from '$lib/components/layout/desktop-sidebar.svelte';
+	import InstallBanner from '$lib/components/layout/install-banner.svelte';
 	import MobileFooter from '$lib/components/layout/mobile-footer.svelte';
+	import { Download } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fade, scale } from 'svelte/transition';
+	import { Drawer } from 'vaul-svelte';
 	let { children, data } = $props();
 
 	let { supabase, session } = $state(data);
@@ -15,7 +18,6 @@
 			provider: 'google'
 		});
 	}
-
 
 	if (browser && !session && !$page.url.pathname.includes('user')) {
 		goto('/');
@@ -29,7 +31,11 @@
 	<div class="flex w-full max-w-screen-lg">
 		<DesktopSidebar />
 		{#key data.url}
-			<div class="w-full pb-20 lg:pb-0 flex-grow bg-background lg:drop-shadow dark:lg:border-x" in:scale={{start:1.005, duration: 150}}>
+			<div
+				class="w-full flex-grow bg-background pb-20 lg:pb-0 lg:drop-shadow dark:lg:border-x"
+				in:scale={{ start: 1.005, duration: 150 }}
+			>
+				<InstallBanner />
 				{@render children()}
 			</div>
 		{/key}
@@ -41,6 +47,6 @@
 
 <style lang="postcss">
 	:global(body) {
-		@apply bg-background overflow-x-hidden;
+		@apply overflow-x-hidden bg-background;
 	}
 </style>

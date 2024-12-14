@@ -20,7 +20,7 @@
 	let imageLoaded = $state(false);
 </script>
 
-<a class="z-0 flex w-full gap-3 rounded bg-card p-3 text-left drop-shadow border border-border/80" href="/show/{show.id}">
+<a class="z-0 flex flex-grow min-w-0 gap-3 rounded bg-card p-3 text-left drop-shadow border border-border/80" href="/show/{show.id}">
 	<div
 		class="relative aspect-square min-h-20 min-w-20 overflow-hidden rounded bg-zinc-400 dark:bg-zinc-900 object-cover"
 	>
@@ -29,7 +29,7 @@
 				src={show.image_url}
 				onload={() => (imageLoaded = true)}
 				in:fade={{ duration: 150 }}
-				class="absolute h-full w-full object-cover drop-shadow-md {imageLoaded
+				class="absolute h-full w-full object-cover rounded border-border border drop-shadow-md {imageLoaded
 					? 'opacity-100'
 					: 'opacity-0'}"
 				alt="Album"

@@ -12,8 +12,9 @@
 	import { MediaQuery } from 'svelte/reactivity';
 	import { PlusCircle } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
+	import CustomButton from '../custom-button.svelte';
 
-	let { show, mobile } = $props();
+	let { show, mobile, bigButton = false } = $props();
 
 	const lg = new MediaQuery('min-width: 1000px');
 
@@ -53,7 +54,11 @@
 {#if !lg.current}
 	<Drawer.Root shouldScaleBackground>
 		<Drawer.Trigger class="z-0 p-1">
-			<PlusCircle />
+			{#if bigButton}
+				<CustomButton onclick={() => {}} class="min-w-40 px-0">Add to timeline</CustomButton>
+			{:else}
+				<PlusCircle />
+			{/if}
 		</Drawer.Trigger>
 		<Drawer.Portal>
 			<Drawer.Overlay class="fixed inset-0 bg-black/80 backdrop-blur-[1px] backdrop-saturate-50" />
@@ -66,7 +71,13 @@
 	</Drawer.Root>
 {:else}
 	<Dialog.Root>
-		<Dialog.Trigger class="p-1"><PlusCircle /></Dialog.Trigger>
+		<Dialog.Trigger class="p-1"
+			>{#if bigButton}
+				<CustomButton onclick={() => {}} class="min-w-40 px-0">Add to timeline</CustomButton>
+			{:else}
+				<PlusCircle />
+			{/if}</Dialog.Trigger
+		>
 		<Dialog.Content
 			class="flex h-[600px] w-full max-w-screen-sm flex-col overflow-hidden bg-background"
 		>

@@ -75,7 +75,7 @@
 				<div class="text-lg font-medium">Featured:</div>
 			{/if}
 			{#each results as result, i (result.id)}
-				<div class="flex gap-3">
+				<div class="flex gap-3 w-full">
 					<AddToTimeline {mobile} show={result} />
 					<ShowListItemCard show={result} />
 				</div>

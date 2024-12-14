@@ -101,14 +101,5 @@
 		</div>
 		<div class="h-6"></div>
 		<CustomButton onclick={handleSubmit} type="submit">Submit</CustomButton>
-	</form>
-	<div class="pt-10">
-		<div class="text-xl font-medium">My Contributions:</div>
-		<div class="py-2">
-			<ContributionListItem
-				name="Hamilton: An American Musical"
-				img="https://ranmmdwcpccvoklpbaql.supabase.co/storage/v1/object/public/show_images/hamilton.jpeg"
-			/>
-		</div>
-	</div></Page
+	</form></Page
 >

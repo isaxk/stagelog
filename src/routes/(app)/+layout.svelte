@@ -30,6 +30,7 @@
 		toast: 'bottom-16 sm:bottom-0',
 	}
 }}/>
+<InstallBanner />
 <div
 	class="flex min-h-screen w-full justify-center bg-background text-foreground"
 	data-vaul-drawer-wrapper
@@ -41,7 +42,7 @@
 				class="w-full flex-grow bg-background pb-20 lg:pb-0 lg:drop-shadow dark:lg:border-x"
 				in:scale={{ start: 1.005, duration: 150 }}
 			>
-				<InstallBanner />
+				
 				{@render children()}
 			</div>
 		{/key}

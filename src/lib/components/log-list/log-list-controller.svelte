@@ -54,7 +54,7 @@
 		return data ?? [];
 	}
 
-	function initSubscriptions() {
+	async function initSubscriptions() {
 		if (!supabase.client) return;
 		const userid = data.session?.user.id;
 		const logInserts = supabase.client
@@ -114,6 +114,7 @@
 				}
 			)
 			.subscribe();
+		
 
 		return {
 			logInserts,
@@ -126,11 +127,15 @@
 		logInserts: RealtimeChannel;
 		logUpdates: RealtimeChannel;
 		logDeletes: RealtimeChannel;
-	} | null = null;
+	} | null = $state(null);
+
+	$inspect(subs);
 
 	onMount(() => {
 		if (realtime) {
-			subs = initSubscriptions() ?? null;
+			initSubscriptions().then((e)=>{
+				subs = e ?? null;
+			})
 			return () => {
 				if (subs) {
 					supabase.client!.removeChannel(subs?.logInserts);
@@ -145,7 +150,9 @@
 <svelte:document
 	onvisibilitychange={() => {
 		if (!document.hidden && realtime) {
-			subs = initSubscriptions() ?? null;
+			initSubscriptions().then((e)=>{
+				subs = e ?? null;
+			})
 		} else {
 			if (subs) {
 				supabase.client!.removeChannel(subs?.logInserts);

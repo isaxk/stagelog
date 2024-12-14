@@ -20,9 +20,9 @@ dependencies:
   lodash.groupby:
     specifier: ^4.6.0
     version: 4.6.0
-  mode-watcher:
-    specifier: ^0.5.0
-    version: 0.5.0(svelte@5.8.1)
+  runed:
+    specifier: ^0.18.0
+    version: 0.18.0(svelte@5.8.1)
   svelte-notifications:
     specifier: ^0.9.98
     version: 0.9.98
@@ -70,6 +70,9 @@ devDependencies:
   lucide-svelte:
     specifier: ^0.465.0
     version: 0.465.0(svelte@5.8.1)
+  mode-watcher:
+    specifier: ^0.5.0
+    version: 0.5.0(svelte@5.8.1)
   prettier:
     specifier: ^3.3.2
     version: 3.4.1
@@ -88,6 +91,9 @@ devDependencies:
   svelte-check:
     specifier: ^4.0.0
     version: 4.1.1(svelte@5.8.1)(typescript@5.7.2)
+  svelte-sonner:
+    specifier: ^0.3.28
+    version: 0.3.28(svelte@5.8.1)
   tailwind-merge:
     specifier: ^2.5.5
     version: 2.5.5
@@ -1943,7 +1949,7 @@ packages:
       svelte: ^4.0.0 || ^5.0.0-next.1
     dependencies:
       svelte: 5.8.1
-    dev: false
+    dev: true
 
   /mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
@@ -2388,6 +2394,15 @@ packages:
       esm-env: 1.2.1
       svelte: 5.8.1
 
+  /runed@0.18.0(svelte@5.8.1):
+    resolution: {integrity: sha512-siuvOl9Qa1A/gDHE3HuxG1fQQMkh6aOMqKDdGvcRbl53aiz3JbxTrf6DcA/lai8SAR1EMwOs8xX6Vk2PGHXOgA==}
+    peerDependencies:
+      svelte: ^5.0.0-next.1
+    dependencies:
+      esm-env: 1.2.1
+      svelte: 5.8.1
+    dev: false
+
   /sade@1.8.1:
     resolution: {integrity: sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A==}
     engines: {node: '>=6'}
@@ -2557,6 +2572,14 @@ packages:
   /svelte-notifications@0.9.98:
     resolution: {integrity: sha512-w7/sqnQtEjM5uzjb3HfB50RE6KMuuWEQZxfBw86IykslHFJRcTuRvaUv503UMqY/LaioOu6w9mjJTO+ejiReSQ==}
     dev: false
+
+  /svelte-sonner@0.3.28(svelte@5.8.1):
+    resolution: {integrity: sha512-K3AmlySeFifF/cKgsYNv5uXqMVNln0NBAacOYgmkQStLa/UoU0LhfAACU6Gr+YYC8bOCHdVmFNoKuDbMEsppJg==}
+    peerDependencies:
+      svelte: ^3.0.0 || ^4.0.0 || ^5.0.0-next.1
+    dependencies:
+      svelte: 5.8.1
+    dev: true
 
   /svelte-toolbelt@0.4.6(svelte@5.8.1):
     resolution: {integrity: sha512-k8OUvXBUifHZcAlWeY/HLg/4J0v5m2iOfOhn8fDmjt4AP8ZluaDh9eBFus9lFiLX6O5l6vKqI1dKL5wy7090NQ==}

@@ -2,11 +2,11 @@
 	import { supabase } from '$lib/supabase/client.svelte';
 	import { getDerivedData } from '$lib/supabase/database';
 	import type { Tables } from '$lib/supabase/types';
+	import type { RealtimeChannel } from '@supabase/supabase-js';
 	import groupBy from 'just-group-by';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	let { data, children, realtime = false } = $props();
-
 
 	let timeline = $state(data.timeline);
 	let shows: Tables<'shows'>[] = $state(data.shows);
@@ -57,7 +57,7 @@
 	function initSubscriptions() {
 		if (!supabase.client) return;
 		const userid = data.session?.user.id;
-		supabase.client
+		const logInserts = supabase.client
 			.channel('log-inserts')
 			.on(
 				'postgres_changes',
@@ -75,7 +75,7 @@
 			)
 			.subscribe();
 
-		supabase.client
+		const logUpdates = supabase.client
 			.channel('log-updates')
 			.on(
 				'postgres_changes',
@@ -96,7 +96,7 @@
 			)
 			.subscribe();
 
-		supabase.client
+		const logDeletes = supabase.client
 			.channel('log-deletes')
 			.on(
 				'postgres_changes',
@@ -114,11 +114,30 @@
 				}
 			)
 			.subscribe();
+
+		return {
+			logInserts,
+			logUpdates,
+			logDeletes
+		};
 	}
+
+	let subs: {
+		logInserts: RealtimeChannel;
+		logUpdates: RealtimeChannel;
+		logDeletes: RealtimeChannel;
+	} | null = null;
 
 	onMount(() => {
 		if (realtime) {
-			initSubscriptions();
+			subs = initSubscriptions() ?? null;
+			return () => {
+				if (subs) {
+					supabase.client!.removeChannel(subs?.logInserts);
+					supabase.client!.removeChannel(subs?.logUpdates);
+					supabase.client!.removeChannel(subs?.logDeletes);
+				}
+			};
 		}
 	});
 </script>
@@ -126,7 +145,13 @@
 <svelte:document
 	onvisibilitychange={() => {
 		if (!document.hidden && realtime) {
-			initSubscriptions();
+			subs = initSubscriptions() ?? null;
+		} else {
+			if (subs) {
+				supabase.client!.removeChannel(subs?.logInserts);
+				supabase.client!.removeChannel(subs?.logUpdates);
+				supabase.client!.removeChannel(subs?.logDeletes);
+			}
 		}
 	}}
 />

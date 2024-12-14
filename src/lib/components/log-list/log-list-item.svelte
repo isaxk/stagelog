@@ -132,7 +132,7 @@
 			{/if}
 		</button>
 		<div
-			class="flex h-full min-w-0 flex-grow items-center gap-2 pr-3 rounded border border-border/50 bg-card p-2 drop-shadow {!lg.current &&
+			class="flex h-full min-w-0 flex-grow items-center gap-2 rounded border border-border/80 bg-card p-2 pr-3 drop-shadow {!lg.current &&
 			!log.comments &&
 			!lg.current &&
 			profile !== null
@@ -140,13 +140,15 @@
 				: 'flex-col'}  lg:flex-row"
 		>
 			<div class="flex w-full min-w-0 items-center gap-2">
-				<img
-					in:fade
-					src={show.image_url}
-					alt="d"
-					class="aspect-square w-14 rounded object-cover drop-shadow-md"
-				/>
-				<div class="min-w-0 flex-grow">
+				<a href="/show/{show.id}" class="contents">
+					<img
+						in:fade
+						src={show.image_url}
+						alt="d"
+						class="aspect-square w-14 rounded object-cover drop-shadow-md"
+					/>
+				</a>
+				<a class="min-w-0 block flex-grow" href="/show/{show.id}">
 					<div
 						class="font w-full min-w-0 overflow-x-hidden text-ellipsis text-nowrap font-serif text-2xl"
 					>
@@ -157,7 +159,7 @@
 							{log.location}
 						</div>
 					</div>
-				</div>
+				</a>
 			</div>
 			{#if lg.current || log.comments || profile === null}
 				<div
@@ -243,7 +245,7 @@
 					{/if}
 				</div>
 			{/if}
-			{#if !log.comments && !lg.current && profile!==null}
+			{#if !log.comments && !lg.current && profile !== null}
 				<div class="flex h-full flex-col">
 					<div class="flex-grow text-transparent">d</div>
 					<Rating

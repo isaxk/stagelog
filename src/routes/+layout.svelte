@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import '../app.css';
-	import { invalidate } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import { supabase } from '$lib/supabase/client.svelte';
 	let { children, data } = $props();
 	import { ModeWatcher } from 'mode-watcher';
@@ -45,6 +45,7 @@
 					// if (newSession?.expires_at !== supabase.session?.expires_at) {
 					// 	invalidate('supabase:auth');
 					// }
+					if(!newSession?.user) goto('/');
 					supabase.user = newSession?.user ?? null;
 					supabase.client
 						?.from('profiles')

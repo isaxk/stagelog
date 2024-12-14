@@ -1,6 +1,7 @@
 <script>
 	import { browser } from "$app/environment";
 	import { goto } from "$app/navigation";
+	import { page } from "$app/stores";
 	import CustomButton from "$lib/components/custom-button.svelte";
 	import { supabase } from "$lib/supabase/client.svelte";
 
@@ -12,7 +13,10 @@
 
 	function signIn() {
 		supabase.client?.auth.signInWithOAuth({
-			provider: 'google'
+			provider: 'google',
+			options: {
+				redirectTo: "https://localhost:5173/timeline"
+			}
 		})
 	}
 	

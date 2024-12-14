@@ -9,6 +9,7 @@
 	import { onMount } from 'svelte';
 	import { fade, scale } from 'svelte/transition';
 	import { Drawer } from 'vaul-svelte';
+	import { Toaster } from "$lib/components/ui/sonner/index.js";
 	let { children, data } = $props();
 
 	let { supabase, session } = $state(data);
@@ -24,6 +25,11 @@
 	}
 </script>
 
+<Toaster toastOptions={{
+	classes: {
+		toast: 'bottom-16 sm:bottom-0',
+	}
+}}/>
 <div
 	class="flex min-h-screen w-full justify-center bg-background text-foreground"
 	data-vaul-drawer-wrapper

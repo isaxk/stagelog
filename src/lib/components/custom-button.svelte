@@ -14,7 +14,7 @@
 	{type}
 	{onclick}
 	class={cn(
-		'flex w-full px-10 drop-shadow-md bg-background justify-center gap-2 rounded border border-blue-500 py-2 text-blue-500 transition-all hover:bg-blue-100',
+		'flex w-full px-10 drop-shadow-md bg-background justify-center gap-2 rounded border border-blue-500 py-2 text-blue-500 transition-all hover:bg-blue-100 dark:hover:bg-blue-950/70',
 		className
 	)}>{@render children()}</button
 >

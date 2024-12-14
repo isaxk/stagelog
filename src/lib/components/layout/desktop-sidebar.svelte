@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase/client.svelte';
 
-	import { Heart, List, SquarePen, Users } from 'lucide-svelte';
+	import { Heart, List, Search, Settings, SquarePen, Users } from 'lucide-svelte';
 	import CustomButton from '../custom-button.svelte';
 	import { page } from '$app/stores';
 	import SidebarItem from './sidebar-item.svelte';
@@ -13,7 +13,7 @@
 	}
 </script>
 
-<div class="sticky top-0 hidden h-screen min-w-72 px-4 pl-2 lg:block">
+<div class="sticky top-0 hidden h-screen min-w-72 px-4 pl-2 lg:flex pb-4 flex-col">
 	{#if supabase.session}
 		<div class="flex h-20 items-center py-4 font-serif text-4xl font-semibold">StageLog</div>
 
@@ -32,9 +32,9 @@
 				<Users {size} strokeWidth={weight} />
 			{/snippet}
 		</SidebarItem> -->
-		<SidebarItem href="/log" label="Log Shows">
+		<SidebarItem href="/log" label="Find Shows">
 			{#snippet icon(size: number, weight: number)}
-				<SquarePen {size} strokeWidth={weight} />
+				<Search {size} strokeWidth={weight} />
 			{/snippet}
 		</SidebarItem>
 		<SidebarItem href="/contribute" label="Contibute">
@@ -46,9 +46,14 @@
 			{#snippet icon()}
 				<img
 					src={supabase.userProfile?.avatar_url}
-					class="w-[28px] aspect-square object-cover rounded-full border border-border drop-shadow-xl"
+					class="aspect-square -mr-1 -translate-x-[3px] w-[28px] rounded-full border border-border object-cover drop-shadow-xl"
 					alt=""
 				/>
+			{/snippet}
+		</SidebarItem>
+		<SidebarItem href="/settings" label="Settings">
+			{#snippet icon(size: number, weight: number)}
+				<Settings {size} strokeWidth={weight} />
 			{/snippet}
 		</SidebarItem>
 	{:else}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Heart, List, SquarePen, Users } from 'lucide-svelte';
+	import { Heart, List, Search, SquarePen, Users } from 'lucide-svelte';
 	import { Drawer } from 'vaul-svelte';
 	import { supabase } from '$lib/supabase/client.svelte';
 	import { onMount } from 'svelte';
@@ -51,8 +51,8 @@
 			? 'text-blue-500'
 			: ''}"
 	>
-		<SquarePen size={28} />
-		Log shows
+		<Search size={28} />
+		Find shows
 	</a>
 
 	<a

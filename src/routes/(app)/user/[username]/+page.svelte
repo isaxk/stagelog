@@ -1,31 +1,27 @@
 <script lang="ts">
-	import LogListItem from '$lib/components/log-list/log-list-item.svelte';
-	import { groupByYear } from '$lib/utils/array.js';
-	import { fade, fly } from 'svelte/transition';
+	import { goto } from '$app/navigation';
 	import CustomButton from '$lib/components/custom-button.svelte';
+	import DesktopQuery from '$lib/components/layout/desktop-query.svelte';
 	import LogListController from '$lib/components/log-list/log-list-controller.svelte';
-	import type { YearGroup } from '$lib/types/index.js';
+	import LogListItem from '$lib/components/log-list/log-list-item.svelte';
 	import LogListYear from '$lib/components/log-list/log-list-year.svelte';
 	import * as Dialog from '$lib/components/ui/dialog';
-	import { flip } from 'svelte/animate';
-	import { MediaQuery } from 'svelte/reactivity';
-	import { Header } from '$lib/components/ui/calendar';
 	import ImageUploader from '$lib/components/ui/image-uploader/image-uploader.svelte';
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
-	import { Drawer } from 'vaul-svelte';
 	import { supabase } from '$lib/supabase/client.svelte';
-	import { mount, onMount } from 'svelte';
-	import { goto } from '$app/navigation';
-	import Spinner from '$lib/components/ui/spinner/spinner.svelte';
+	import type { YearGroup } from '$lib/types/index.js';
+	import { onMount } from 'svelte';
+	import { toast } from 'svelte-sonner';
+	import { flip } from 'svelte/animate';
+	import { fade, fly } from 'svelte/transition';
+	import { Drawer } from 'vaul-svelte';
 
 	let { data } = $props();
-
-	const lg = new MediaQuery('min-width: 1024px');
 
 	let usernameValue = $state(data.profile.username);
 	let bioValue = $state(data.profile.bio);
 	let bio = $state(data.profile.bio);
-	let following = $state(data.followers.find((o) => o.follower === supabase.user?.id) !== null);
+	let following = $state(data.isUserFollowing);
 	let avatarUrl = $state(data.profile.avatar_url);
 	let newAvatar = $state(null);
 	let editProfileOpen = $state(false);
@@ -38,6 +34,7 @@
 
 	async function updateProfile() {
 		updatingProfile = true;
+		editProfileOpen = false;
 		let newAvatarUrl = data.profile.avatar_url;
 		const id = Date.now();
 		if (newAvatar) {
@@ -66,7 +63,6 @@
 			goto('/user/' + usernameValue);
 		}
 		updatingProfile = false;
-		editProfileOpen = false;
 
 		avatarUrl = newAvatarUrl;
 		bio = bioValue;
@@ -148,79 +144,94 @@
 				{@render infos()}
 			</div>
 			<div class="flex justify-end">
-				{#if data.profile?.id === data.session?.user.id && mounted}
-					{#if lg.current}
-						<Dialog.Root bind:open={editProfileOpen}>
-							<Dialog.Trigger
-								><CustomButton onclick={() => {}} class="w-max px-6 py-2 text-sm"
-									>Edit Profile</CustomButton
-								></Dialog.Trigger
-							>
-							<Dialog.Content class="bg-background">
-								<Dialog.Header>
-									<Dialog.Title>Edit Profile</Dialog.Title>
-								</Dialog.Header>
-								{@render profileEditor()}
-								<div class="flex h-12 items-center justify-center text-lg">
-									{#if updatingProfile}
-										<Spinner />
-									{:else}
-										<CustomButton onclick={updateProfile}>Done</CustomButton>
-									{/if}
-								</div>
-							</Dialog.Content>
-						</Dialog.Root>
-					{:else}
-						<Drawer.Root shouldScaleBackground bind:open={editProfileOpen}>
-							<Drawer.Trigger>
-								<CustomButton onclick={() => {}} class="w-max px-6 py-2 text-sm"
-									>Edit Profile</CustomButton
-								>
-							</Drawer.Trigger>
-							<Drawer.Portal>
-								<Drawer.Overlay
-									class="fixed inset-0 bg-black/80 backdrop-blur-[1px] backdrop-saturate-50"
-								/>
-								<Drawer.Content
-									class="fixed bottom-0 left-0 right-0 z-20 flex h-[95%] flex-col rounded-t-lg bg-background outline-none"
-								>
-									<div
-										class="z-20 flex h-16 items-center justify-center rounded-t-lg bg-muted p-4 drop-shadow"
+				{#if mounted}
+					{#if data.profile?.id === data.session?.user.id && mounted}
+						<DesktopQuery query="(max-width: 1024px)">
+							{#snippet unmatch()}
+								<Dialog.Root bind:open={editProfileOpen}>
+									<Dialog.Trigger class="hidden lg:block"
+										><CustomButton onclick={() => {}} class="w-max px-6 py-2 text-sm"
+											>Edit Profile</CustomButton
+										></Dialog.Trigger
 									>
-										<div class="flex w-full max-w-screen-sm items-center">
-											<Drawer.Close class="w-20 py-4 text-left text-blue-400">Cancel</Drawer.Close>
-											<div class="flex-grow text-center font-semibold">Edit Profile</div>
-											{#if updatingProfile}
-												<div class="-mr-4 flex h-full w-24 items-center justify-center">
-													<Spinner />
-												</div>
-											{:else}
-												<button
-													onclick={updateProfile}
-													class="w-20 text-right font-medium {usernameValue ===
-														data.profile.username &&
-													bioValue === data.profile.bio &&
-													newAvatar === null
-														? 'text-zinc-700'
-														: 'text-blue-500'}"
-													disabled={usernameValue === data.profile.username &&
-														bioValue === data.profile.bio &&
-														newAvatar === null}>Done</button
-												>
-											{/if}
-										</div>
-									</div>
-									<div class="p-4">
+									<Dialog.Content class="bg-background">
+										<Dialog.Header>
+											<Dialog.Title>Edit Profile</Dialog.Title>
+										</Dialog.Header>
 										{@render profileEditor()}
-									</div></Drawer.Content
-								>
-							</Drawer.Portal>
-						</Drawer.Root>
+										<div class="flex h-12 items-center justify-center text-lg">
+											<CustomButton
+												onclick={() => {
+													toast.promise(updateProfile(), {
+														loading: 'Loading...',
+														success: () => {
+															return `Profile Updated`;
+														},
+														error: 'Error'
+													});
+												}}>Done</CustomButton
+											>
+										</div>
+									</Dialog.Content>
+								</Dialog.Root>
+							{/snippet}
+							{#snippet match()}
+								<Drawer.Root shouldScaleBackground bind:open={editProfileOpen}>
+									<Drawer.Trigger>
+										<CustomButton onclick={() => {}} class="w-max px-6 py-2 text-sm"
+											>Edit Profile</CustomButton
+										>
+									</Drawer.Trigger>
+									<Drawer.Portal>
+										<Drawer.Overlay
+											class="fixed inset-0 bg-black/80 backdrop-blur-[1px] backdrop-saturate-50"
+										/>
+										<Drawer.Content
+											class="fixed bottom-0 left-0 right-0 z-20 flex h-[95%] flex-col rounded-t-lg bg-background outline-none"
+										>
+											<div
+												class="z-20 flex h-16 items-center justify-center rounded-t-lg bg-muted p-4 drop-shadow"
+											>
+												<div class="flex w-full max-w-screen-sm items-center">
+													<Drawer.Close class="w-20 py-4 text-left text-blue-400"
+														>Cancel</Drawer.Close
+													>
+													<div class="flex-grow text-center font-semibold">Edit Profile</div>
+													<button
+														onclick={() => {
+															toast.promise(updateProfile(), {
+																loading: 'Loading...',
+																success: () => {
+																	return `Profile Updated`;
+																},
+																error: 'Error'
+															});
+														}}
+														class="w-20 text-right font-medium {usernameValue ===
+															data.profile.username &&
+														bioValue === data.profile.bio &&
+														newAvatar === null
+															? 'text-zinc-700'
+															: 'text-blue-500'}"
+														disabled={usernameValue === data.profile.username &&
+															bioValue === data.profile.bio &&
+															newAvatar === null}>Done</button
+													>
+												</div>
+											</div>
+											<div class="p-4">
+												{@render profileEditor()}
+											</div></Drawer.Content
+										>
+									</Drawer.Portal>
+								</Drawer.Root>
+							{/snippet}
+						</DesktopQuery>
+					{:else if following}
+						<CustomButton onclick={unfollow} class="w-max px-6 py-2 text-sm">Unfollow</CustomButton>
+					{:else}
+						<CustomButton onclick={follow} class="w-max px-6 py-2 text-sm">Follow</CustomButton>
 					{/if}
-				{:else if following}
-					<CustomButton onclick={unfollow} class="w-max px-6 py-2 text-sm">Unfollow</CustomButton>
-				{:else}
-					<CustomButton onclick={follow} class="w-max px-6 py-2 text-sm">Follow</CustomButton>
 				{/if}
 			</div>
 		</div>
@@ -228,32 +239,32 @@
 			{@render infos()}
 		</div>
 	</div>
-	<div class="mt-6 lg:mt-4 px-4 z-20">
+	<div class="z-20 mt-6 px-4 lg:mt-4">
 		{bio}
 	</div>
 	<div class="pt-4 lg:p-4">
 		<div
 			class="min-h-96 border-t border-border bg-background p-4 lg:rounded-md lg:border-x lg:drop-shadow-sm"
 		>
-			<LogListController {data}>
-				{#snippet children(groupedByYear: YearGroup[])}
-					{#if groupedByYear.length > 0}
-						{#each groupedByYear as year, i (year.year)}
-							<LogListYear {year}>
-								{#each year.items as item, x (item.log_entry.id)}
-									<div
-										in:fly={{ duration: 200 }}
-										out:fade={{ duration: 200 }}
-										animate:flip={{ duration: 200 }}
-									>
-										<LogListItem {i} {item} profile={data.profile} />
-									</div>
-								{/each}
-							</LogListYear>
-						{/each}
-					{/if}
-				{/snippet}
-			</LogListController>
+				<LogListController {data}>
+					{#snippet children(groupedByYear: YearGroup[])}
+						{#if groupedByYear.length > 0 && mounted}
+							{#each groupedByYear as year, i (year.year)}
+								<LogListYear {year}>
+									{#each year.items as item, x (item.log_entry.id)}
+										<div
+											in:fly={{ duration: 200 }}
+											out:fade={{ duration: 200 }}
+											animate:flip={{ duration: 200 }}
+										>
+											<LogListItem {i} {item} profile={data.profile} />
+										</div>
+									{/each}
+								</LogListYear>
+							{/each}
+						{/if}
+					{/snippet}
+				</LogListController>
 		</div>
 	</div>
 	<div class="h-20 lg:h-0"></div>

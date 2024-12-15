@@ -117,7 +117,7 @@
 {#if show}
 	<div class="flex w-full items-center gap-4 sm:gap-0">
 		<button
-			onclick={() => (datePickerOpen = true)}
+			onclick={() => datePickerOpen = profile===null}
 			class="flex w-2 -rotate-90 justify-center gap-1 pt-1 font-semibold sm:min-w-16 sm:max-w-16 sm:-rotate-0 sm:justify-start sm:font-normal"
 		>
 			{#if log.date !== null}

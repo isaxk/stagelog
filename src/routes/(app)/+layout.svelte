@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
+	import { afterNavigate, beforeNavigate, goto, onNavigate } from '$app/navigation';
 	import { page, navigating } from '$app/stores';
 	import DesktopSidebar from '$lib/components/layout/desktop-sidebar.svelte';
 	import InstallBanner from '$lib/components/layout/install-banner.svelte';
@@ -33,6 +33,9 @@
 		}
 	}}
 />
+{#if $navigating}
+	<div in:fade={{duration:20, delay: 150}} class="fixed left-0 right-0 top-0 h-0.5 bg-blue-500 drop-shadow animate-pulse duration-500 z-50"></div>
+{/if}
 <InstallBanner />
 <div
 	class="flex min-h-screen w-full justify-center bg-background text-foreground"
@@ -40,18 +43,14 @@
 >
 	<div class="flex w-full max-w-screen-lg">
 		<DesktopSidebar />
-		{#if !$navigating}
+		{#key data.url}
 			<div
-				class="w-full flex-grow bg-background pb-20 lg:pb-0 lg:drop-shadow dark:lg:border-x"
+				class="w-full flex-grow bg-background pb-20 transition-all lg:pb-0 lg:drop-shadow dark:lg:border-x"
 				in:scale={{ start: 1.005, duration: 150 }}
 			>
 				{@render children()}
 			</div>
-		{:else}
-			<div class="flex w-full flex-grow items-center justify-center bg-background">
-				<Spinner />
-			</div>
-		{/if}
+		{/key}
 	</div>
 </div>
 {#if session?.user}

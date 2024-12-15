@@ -26,6 +26,9 @@ dependencies:
   svelte-notifications:
     specifier: ^0.9.98
     version: 0.9.98
+  svelte-progress-bar:
+    specifier: ^3.0.2
+    version: 3.0.2
   vaul-svelte:
     specifier: 1.0.0-next.3
     version: 1.0.0-next.3(svelte@5.8.1)
@@ -2571,6 +2574,10 @@ packages:
 
   /svelte-notifications@0.9.98:
     resolution: {integrity: sha512-w7/sqnQtEjM5uzjb3HfB50RE6KMuuWEQZxfBw86IykslHFJRcTuRvaUv503UMqY/LaioOu6w9mjJTO+ejiReSQ==}
+    dev: false
+
+  /svelte-progress-bar@3.0.2:
+    resolution: {integrity: sha512-OpHgSg7ebvCtzA1mnUzOSftG7qcJ6llbopGuLCQ3Usz8RnFMm5S4DcclaaSDHQ33NJ8s+SrN/sEVuKZIDF7asw==}
     dev: false
 
   /svelte-sonner@0.3.28(svelte@5.8.1):

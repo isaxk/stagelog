@@ -17,10 +17,8 @@
 	}
 
 	onMount(() => {
-		preloadData('/timeline');
 		preloadData('/log');
-		preloadData('/contribute');
-		
+		preloadData('/contribute');	
 	});
 
 	$effect(()=>{

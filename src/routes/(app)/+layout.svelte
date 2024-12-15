@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { page, navigating } from '$app/stores';
 	import DesktopSidebar from '$lib/components/layout/desktop-sidebar.svelte';
 	import InstallBanner from '$lib/components/layout/install-banner.svelte';
 	import MobileFooter from '$lib/components/layout/mobile-footer.svelte';
@@ -9,7 +9,8 @@
 	import { onMount } from 'svelte';
 	import { fade, scale } from 'svelte/transition';
 	import { Drawer } from 'vaul-svelte';
-	import { Toaster } from "$lib/components/ui/sonner/index.js";
+	import { Toaster } from '$lib/components/ui/sonner/index.js';
+	import Spinner from '$lib/components/ui/spinner/spinner.svelte';
 	let { children, data } = $props();
 
 	let { supabase, session } = $state(data);
@@ -25,11 +26,13 @@
 	}
 </script>
 
-<Toaster toastOptions={{
-	classes: {
-		toast: 'bottom-16 sm:bottom-0',
-	}
-}}/>
+<Toaster
+	toastOptions={{
+		classes: {
+			toast: 'bottom-16 sm:bottom-0'
+		}
+	}}
+/>
 <InstallBanner />
 <div
 	class="flex min-h-screen w-full justify-center bg-background text-foreground"
@@ -37,15 +40,18 @@
 >
 	<div class="flex w-full max-w-screen-lg">
 		<DesktopSidebar />
-		{#key data.url}
+		{#if !$navigating}
 			<div
 				class="w-full flex-grow bg-background pb-20 lg:pb-0 lg:drop-shadow dark:lg:border-x"
 				in:scale={{ start: 1.005, duration: 150 }}
 			>
-				
 				{@render children()}
 			</div>
-		{/key}
+		{:else}
+			<div class="flex w-full flex-grow items-center justify-center bg-background">
+				<Spinner />
+			</div>
+		{/if}
 	</div>
 </div>
 {#if session?.user}

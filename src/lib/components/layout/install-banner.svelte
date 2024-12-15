@@ -37,7 +37,7 @@
 {#if ios}
 	<Drawer.Root shouldScaleBackground>
 		<Drawer.Trigger
-			class="sticky top-0 z-40 flex h-14 w-full items-center gap-4 bg-black px-4 text-left text-white"
+			class="fixed bottom-[70px] z-40 flex h-14 w-full items-center gap-4 bg-black px-4 text-left text-white"
 		>
 			<Download />
 			<div class="flex-grow text-xl">Install App</div>

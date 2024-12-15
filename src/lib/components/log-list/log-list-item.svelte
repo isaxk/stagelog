@@ -115,7 +115,7 @@
 {/snippet}
 
 {#if show}
-	<div class="flex w-full items-center gap-4 pr-2 sm:gap-0">
+	<div class="flex w-full items-center gap-4 sm:gap-0">
 		<button
 			onclick={() => (datePickerOpen = true)}
 			class="flex w-2 -rotate-90 justify-center gap-1 pt-1 font-semibold sm:min-w-16 sm:max-w-16 sm:-rotate-0 sm:justify-start sm:font-normal"
@@ -132,23 +132,23 @@
 			{/if}
 		</button>
 		<div
-			class="flex h-full min-w-0 flex-grow items-center gap-2 rounded border border-border/80 bg-card p-2 pr-3 drop-shadow {!lg.current &&
+			class="flex h-full min-w-0 flex-grow items-center gap-2 rounded overflow-hidden border border-border/80 bg-card drop-shadow {!lg.current &&
 			!log.comments &&
 			!lg.current &&
 			profile !== null
 				? 'flex-row'
 				: 'flex-col'}  lg:flex-row"
 		>
-			<div class="flex w-full min-w-0 items-center gap-2">
-				<a href="/show/{show.id}" class="contents">
+			<div class="flex w-full h-full min-w-0 items-center gap-2">
+				<a href="/show/{show.id}" class="h-[70px] aspect-square">
 					<img
 						in:fade
 						src={show.image_url}
 						alt="d"
-						class="aspect-square w-14 rounded object-cover drop-shadow-md"
+						class="h-full w-full object-cover drop-shadow-md border-r border-border"
 					/>
 				</a>
-				<a class="min-w-0 block flex-grow" href="/show/{show.id}">
+				<a class="min-w-0 block flex-grow py-2" href="/show/{show.id}">
 					<div
 						class="font w-full min-w-0 overflow-x-hidden text-ellipsis text-nowrap font-serif text-2xl"
 					>
@@ -163,7 +163,7 @@
 			</div>
 			{#if lg.current || log.comments || profile === null}
 				<div
-					class="flex w-full items-center gap-2 lg:flex-col lg:items-end lg:justify-end lg:gap-1 lg:text-right"
+					class="flex w-full items-center px-1 py-1 pr-2 border-t bg-muted/40 lg:bg-card -mt-2 gap-2 lg:flex-col lg:items-end lg:justify-end lg:gap-1 lg:text-right lg:p-0 lg:m-0 lg:border-none"
 				>
 					<Dialog.Root>
 						<Dialog.Trigger
@@ -246,7 +246,7 @@
 				</div>
 			{/if}
 			{#if !log.comments && !lg.current && profile !== null}
-				<div class="flex h-full flex-col">
+				<div class="flex h-full flex-col pr-2 lg:pr-0">
 					<div class="flex-grow text-transparent">d</div>
 					<Rating
 						bind:value={log.rating}
@@ -259,6 +259,7 @@
 			<div class="hidden lg:block">
 				{@render popout()}
 			</div>
+			<div class="w-2 hidden lg:block"></div>
 		</div>
 	</div>
 {:else}

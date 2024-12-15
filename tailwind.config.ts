@@ -70,6 +70,13 @@ const config: Config = {
 				sans: ['DM Sans', ...fontFamily.sans],
 				serif: ['Crimson Pro', ...fontFamily.serif]
 			},
+			padding: {
+				"ios-top": "max(12px, env(safe-area-inset-top))",
+				"ios-bottom": "max(12px, env(safe-area-inset-bottom))"
+			},
+			height: {
+				"drawer": "calc(95% - max(0px, env(safe-area-inset-top)))"
+			},
 			keyframes: {
 				"accordion-down": {
 					from: { height: "0" },

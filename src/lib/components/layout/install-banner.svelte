@@ -34,7 +34,7 @@
 	});
 </script>
 
-{#if ios}
+{#if false}
 	<Drawer.Root shouldScaleBackground>
 		<Drawer.Trigger
 			class="fixed bottom-[70px] z-40 flex h-14 w-full items-center gap-4 bg-black px-4 text-left text-white"

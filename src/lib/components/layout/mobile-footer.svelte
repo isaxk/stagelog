@@ -29,7 +29,7 @@
 </script>
 
 <div
-	class="ios-safe-bottom border-t border-border text-accent-foreground fixed bottom-0 left-0 right-0 flex min-h-14 items-center justify-evenly bg-card py-3 drop-shadow lg:hidden"
+	class="pb-ios-bottom border-t border-border text-accent-foreground fixed bottom-0 left-0 right-0 flex min-h-14 items-center justify-evenly bg-card py-3 drop-shadow lg:hidden"
 >
 	<a
 		href="/timeline"

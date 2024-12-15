@@ -7,7 +7,7 @@ import { Upload } from 'lucide-svelte';
 	let imgSrc: string | null = $state(defaultSrc);
 
 	$effect(()=>{
-		if(!file) imgSrc = null;
+		if(!file) imgSrc = defaultSrc ?? null;
 	})
 </script>
 

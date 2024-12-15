@@ -4,6 +4,7 @@
 	import type { Tables } from '$lib/supabase/types';
 	import { ArrowLeft } from 'lucide-svelte';
 	import { MediaQuery } from 'svelte/reactivity';
+	import { scrollY } from 'svelte/reactivity/window';
 
 	let { data } = $props();
 
@@ -68,17 +69,37 @@
 		</div>
 	</div>
 {:else}
-	<div class="relative w-full h-[360px]">
-		<img src={data.show.image_url} alt="Artwork" class="w-full h-full object-cover">
-		<div class="absolute top-0 left-0 p-4 z-40"><button class="bg-black/80 p-2 rounded-full drop-shadow-md text-white" onclick={() => history.back()}><ArrowLeft /></button></div>
-		<div class="absolute bg-gradient-to-t from-black/5 z-20 to-black/20 inset-0"></div>
+	<div class="relative h-[360px] w-full">
+		<img src={data.show.image_url} alt="Artwork" class="h-full w-full object-cover" />
+		<div
+			class="fixed left-0 right-0 top-0 z-40 flex w-full flex-row items-center gap-4 p-4 pb-3 pt-ios-top transition-all {(scrollY.current ??
+				0) > 300
+				? 'bg-background drop-shadow-md border-b border-border'
+				: 'bg-transparent'}"
+		>
+			<div class="">
+				<button
+					class="block rounded-full p-2 drop-shadow-md {(scrollY.current ?? 0) > 300
+						? 'text-foreground'
+						: 'bg-black/80 text-white'}"
+					onclick={() => history.back()}
+					><ArrowLeft />
+				</button>
+			</div>
+			{#if (scrollY.current ?? 0) > 300}
+				<div class="font-semibold text-lg flex-grow min-w-0 overflow-hidden text-nowrap text-ellipsis">
+					{data.show.name}
+				</div>
+			{/if}
+		</div>
+		<div class="absolute inset-0 z-20 bg-gradient-to-t from-black/5 to-black/80"></div>
 	</div>
-	<div class="p-4 w-full">
+	<div class="w-full p-4">
 		<div class="flex h-full w-full flex-col justify-between">
 			<div class="font-serif text-4xl font-medium">
 				{data.show.name}
 			</div>
-			<div class="flex h-full flex-col gap-4 w-full">
+			<div class="flex h-full w-full flex-col gap-4">
 				<div class="flex flex-grow flex-col">
 					<div>{data.show.playwright}</div>
 					<div class="h-2 flex-grow"></div>
@@ -106,10 +127,9 @@
 						</a>
 					</div>
 				{/if}
-				<div class="h-0 -mt-4"></div>
+				<div class="-mt-4 h-0"></div>
 				<AddToTimeline show={data.show} mobile={false} bigButton />
 			</div>
-			
 		</div>
 		<div class="h-5"></div>
 		<div class="flex min-h-96 flex-col gap-2 rounded-md border bg-background p-4 drop-shadow-sm">
@@ -120,6 +140,5 @@
 				/>
 			{/each}
 		</div>
-		
 	</div>
 {/if}

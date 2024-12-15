@@ -28,7 +28,7 @@
 		<div class="w-full overflow-hidden text-ellipsis text-nowrap font-serif text-2xl font-medium">
 			{show.name}
 		</div>
-		<div class="text-md flex-grow -mt-0.5">
+		<div class="text-md flex-grow -mt-0.5 w-full min-w-0 overflow-x-hidden text-nowrap text-ellipsis">
 			{show.playwright}
 		</div>
 		<div class="flex items-center">

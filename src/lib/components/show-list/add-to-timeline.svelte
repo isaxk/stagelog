@@ -61,9 +61,9 @@
 			{/if}
 		</Drawer.Trigger>
 		<Drawer.Portal>
-			<Drawer.Overlay class="fixed inset-0 bg-black/80 backdrop-blur-[1px] backdrop-saturate-50" />
+			<Drawer.Overlay class="fixed inset-0 bg-black/60 backdrop-blur-[1px]" />
 			<Drawer.Content
-				class="fixed bottom-0 left-0 right-0 z-20 flex h-[95%] flex-col rounded-t-lg bg-background outline-none"
+				class="fixed bottom-0 left-0 right-0 z-20 flex h-drawer flex-col rounded-t-lg bg-background outline-none"
 			>
 				<ChooseLocation id={show.id} onchoose={handleSubmit} mobile={true} />
 			</Drawer.Content>

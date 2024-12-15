@@ -13,6 +13,7 @@
 	import { onMount } from 'svelte';
 	import { toast } from 'svelte-sonner';
 	import { flip } from 'svelte/animate';
+	import { scrollY } from 'svelte/reactivity/window';
 	import { fade, fly } from 'svelte/transition';
 	import { Drawer } from 'vaul-svelte';
 
@@ -127,6 +128,13 @@
 	</div>
 {/snippet}
 
+<div class="sm:hidden contents">
+	{#if (scrollY.current ?? 0) > 50}
+		<div transition:fade={{duration:150}} class="pt-ios-top justify-center fixed left-0 top-0 min-h-20 flex items-center p-4 pb-3 z-50 border-b border-border drop-shadow right-0 w-full bg-background">
+			<div class="text-lg font-semibold">{data.profile.username}</div>
+		</div>
+	{/if}
+</div>
 <div class="w-full">
 	<div class="relative top-0 flex h-60 w-full flex-col gap-4 bg-background lg:h-52">
 		<div class="min-h-32 bg-blue-200"></div>
@@ -184,10 +192,10 @@
 									</Drawer.Trigger>
 									<Drawer.Portal>
 										<Drawer.Overlay
-											class="fixed inset-0 bg-black/80 backdrop-blur-[1px] backdrop-saturate-50"
+											class="fixed inset-0 bg-black/60 backdrop-blur-[1px]"
 										/>
 										<Drawer.Content
-											class="fixed bottom-0 left-0 right-0 z-20 flex h-[95%] flex-col rounded-t-lg bg-background outline-none"
+											class="fixed bottom-0 left-0 right-0 z-20 flex h-drawer flex-col rounded-t-lg bg-background outline-none"
 										>
 											<div
 												class="z-20 flex h-16 items-center justify-center rounded-t-lg bg-muted p-4 drop-shadow"
@@ -246,25 +254,25 @@
 		<div
 			class="min-h-96 border-t border-border bg-background p-4 lg:rounded-md lg:border-x lg:drop-shadow-sm"
 		>
-				<LogListController {data}>
-					{#snippet children(groupedByYear: YearGroup[])}
-						{#if groupedByYear.length > 0 && mounted}
-							{#each groupedByYear as year, i (year.year)}
-								<LogListYear {year}>
-									{#each year.items as item, x (item.log_entry.id)}
-										<div
-											in:fly={{ duration: 200 }}
-											out:fade={{ duration: 200 }}
-											animate:flip={{ duration: 200 }}
-										>
-											<LogListItem {i} {item} profile={data.profile} />
-										</div>
-									{/each}
-								</LogListYear>
-							{/each}
-						{/if}
-					{/snippet}
-				</LogListController>
+			<LogListController {data}>
+				{#snippet children(groupedByYear: YearGroup[])}
+					{#if groupedByYear.length > 0 && mounted}
+						{#each groupedByYear as year, i (year.year)}
+							<LogListYear {year}>
+								{#each year.items as item, x (item.log_entry.id)}
+									<div
+										in:fly={{ duration: 200 }}
+										out:fade={{ duration: 200 }}
+										animate:flip={{ duration: 200 }}
+									>
+										<LogListItem {i} {item} profile={data.profile} />
+									</div>
+								{/each}
+							</LogListYear>
+						{/each}
+					{/if}
+				{/snippet}
+			</LogListController>
 		</div>
 	</div>
 	<div class="h-20 lg:h-0"></div>

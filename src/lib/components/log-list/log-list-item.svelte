@@ -132,14 +132,14 @@
 			{/if}
 		</button>
 		<div
-			class="flex h-full min-w-0 flex-grow items-center gap-2 rounded overflow-hidden border border-border/80 bg-card drop-shadow {!lg.current &&
+			class="flex h-full min-w-0 flex-grow items-center gap-2 will-change-transform rounded-md overflow-hidden border border-border/80 bg-card drop-shadow {!lg.current &&
 			!log.comments &&
 			!lg.current &&
 			profile !== null
 				? 'flex-row'
 				: 'flex-col'}  lg:flex-row"
 		>
-			<div class="flex w-full h-full min-w-0 items-center gap-2">
+			<div class="flex w-full h-full min-w-0 items-center gap-2 will-change-transform drop-shadow-md">
 				<a href="/show/{show.id}" class="h-[70px] aspect-square">
 					<img
 						in:fade

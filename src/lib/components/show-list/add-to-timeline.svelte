@@ -53,7 +53,7 @@
 
 {#if !lg.current}
 	<Drawer.Root shouldScaleBackground>
-		<Drawer.Trigger class="z-0 p-1 w-full">
+		<Drawer.Trigger class="z-0 p-1">
 			{#if bigButton}
 				<CustomButton onclick={() => {}} class="min-w-40 w-full px-0">Add to timeline</CustomButton>
 			{:else}

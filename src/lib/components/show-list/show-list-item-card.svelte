@@ -10,7 +10,7 @@
 </script>
 
 <a
-	class="z-0 flex min-w-0 flex-grow gap-3 overflow-hidden rounded border border-border/80 bg-card text-left drop-shadow"
+	class="z-0 flex min-w-0 w-full flex-grow gap-3 will-change-transform overflow-hidden rounded-md border border-border/80 bg-card text-left drop-shadow"
 	href="/show/{show.id}"
 >
 	<div class="aspect-square w-24 min-w-24 overflow-hidden bg-zinc-400 dark:bg-zinc-900">
@@ -18,7 +18,7 @@
 			src={show.image_url}
 			onload={() => (imageLoaded = true)}
 			in:fade={{ duration: 150 }}
-			class="h-full w-full border-r border-border object-cover drop-shadow-md {imageLoaded
+			class="h-full w-full border-r will-change-transform border-border object-cover drop-shadow-md {imageLoaded
 				? 'opacity-100'
 				: 'opacity-0'}"
 			alt="Album"

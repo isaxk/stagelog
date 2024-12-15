@@ -34,7 +34,7 @@
 	}}
 />
 {#if $navigating}
-	<div in:fade={{duration:20, delay: 150}} class="fixed left-0 right-0 top-0 h-0.5 bg-blue-500 drop-shadow animate-pulse duration-500 z-50"></div>
+	<div class="fixed left-0 right-0 bottom-[90px] sm:top-0 h-0.5 bg-blue-500 drop-shadow animate-pulse duration-1000 z-[1000]"></div>
 {/if}
 <InstallBanner />
 <div

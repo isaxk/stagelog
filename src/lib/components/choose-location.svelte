@@ -51,7 +51,7 @@
 	<div class="z-20 flex h-16 items-center justify-center rounded-t-lg bg-muted p-4 drop-shadow">
 		<div class="flex w-full max-w-screen-sm items-center">
 			{#if currentStage === 0}
-				<Drawer.Close class="w-20 py-4 text-left text-blue-400">Cancel</Drawer.Close>
+				<Drawer.Close class="w-20 py-4 text-left text-blue-400 outline-none">Cancel</Drawer.Close>
 			{:else}
 				<button onclick={() => incrementStage(-1)} class="w-20 py-4 text-left text-blue-400"
 					>Back</button

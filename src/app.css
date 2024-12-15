@@ -40,7 +40,7 @@
 	.dark {
 		--background: 240 0% 5%;
 		--foreground: 0 0% 90%;
-		--muted: 240 3.7% 15.9%;
+		--muted: 240 3.7% 5%;
 		--muted-foreground: 240 5% 64.9%;
 		--popover: 240 10% 3.9%;
 		--popover-foreground: 0 0% 98%;

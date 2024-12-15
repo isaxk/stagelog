@@ -1,4 +1,5 @@
 <script lang="ts">
+	import InstallBanner from '$lib/components/layout/install-banner.svelte';
 	import LogListController from '$lib/components/log-list/log-list-controller.svelte';
 	import LogListItem from '$lib/components/log-list/log-list-item.svelte';
 	import LogListYear from '$lib/components/log-list/log-list-year.svelte';
@@ -18,6 +19,7 @@
 </svelte:head>
 
 <Page title="Timeline">
+	<InstallBanner />
 	<div class="flex w-full flex-col gap-2">
 		<LogListController {data} realtime>
 			{#snippet children(groupedByYear: YearGroup[])}

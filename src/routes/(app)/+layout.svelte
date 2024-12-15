@@ -36,7 +36,6 @@
 {#if $navigating}
 	<div class="fixed left-0 right-0 bottom-[90px] sm:top-0 h-0.5 bg-blue-500 drop-shadow animate-pulse duration-1000 z-[1000]"></div>
 {/if}
-<InstallBanner />
 <div
 	class="flex min-h-screen w-full justify-center bg-background text-foreground"
 	data-vaul-drawer-wrapper
@@ -46,7 +45,7 @@
 		{#key data.url}
 			<div
 				class="w-full flex-grow bg-background pb-20 transition-all lg:pb-0 lg:drop-shadow dark:lg:border-x"
-				in:scale={{ start: 1.005, duration: 150 }}
+				in:scale={{ start: 1.01, duration: 150 }}
 			>
 				{@render children()}
 			</div>

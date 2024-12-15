@@ -5,6 +5,7 @@
 	import { fade } from 'svelte/transition';
 	import { Drawer } from 'vaul-svelte';
 	import { Overlay } from './ui/dialog';
+	import { MediaQuery } from 'svelte/reactivity';
 
 	let {
 		value = $bindable(0),
@@ -18,6 +19,8 @@
 		onchange?: (v: number) => void;
 	} = $props();
 
+	const sm = new MediaQuery('min-width: 640px');
+
 	let hovered = $state(false);
 	let drawer = $state(false);
 </script>
@@ -29,17 +32,30 @@
 			<Drawer.Overlay
 				class="fixed inset-0 z-50 bg-black/80 backdrop-blur-[1px] backdrop-saturate-50"
 			/>
-			<Drawer.Content class="fixed flex items-center justify-center bottom-0 left-0 right-0 z-50 h-52 rounded-t-lg bg-background">
+			<Drawer.Content
+				class="fixed bottom-0 left-0 right-0 z-50 flex h-52 items-center justify-center rounded-t-lg bg-background"
+			>
 				{#each Array(5), i (i)}
 					<button
+					class="outline-none"
 						onclick={() => {
-							if (profile) return;
-							value = i + 1;
-							onchange(value);
+							if (sm) {
+								if (profile) return;
+								value = i + 1;
+								onchange(value);
+							}
+							else {
+								drawer = true;
+							}
 						}}
 						in:fade={{ duration: 300 }}
 						animate:flip={{ duration: 350 }}
-						><Star size={60} strokeWidth={2} color="#f59e0b" fill={value > i ? '#f59e0b' : 'transparent'} />
+						><Star
+							size={60}
+							strokeWidth={2}
+							color="#f59e0b"
+							fill={value > i ? '#f59e0b' : 'transparent'}
+						/>
 					</button>
 				{/each}
 			</Drawer.Content>

@@ -1,27 +1,18 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { afterNavigate, beforeNavigate, goto, onNavigate } from '$app/navigation';
-	import { page, navigating } from '$app/stores';
 	import DesktopSidebar from '$lib/components/layout/desktop-sidebar.svelte';
-	import InstallBanner from '$lib/components/layout/install-banner.svelte';
 	import MobileFooter from '$lib/components/layout/mobile-footer.svelte';
-	import { Download } from 'lucide-svelte';
-	import { onMount } from 'svelte';
-	import { fade, scale } from 'svelte/transition';
-	import { Drawer } from 'vaul-svelte';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
-	import Spinner from '$lib/components/ui/spinner/spinner.svelte';
+
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
+	import { page, navigating } from '$app/state';
+	import { scale } from 'svelte/transition';
+
 	let { children, data } = $props();
 
-	let { supabase, session } = $state(data);
+	let { session } = $state(data);
 
-	async function signIn() {
-		await supabase.auth.signInWithOAuth({
-			provider: 'google'
-		});
-	}
-
-	if (browser && !session && !$page.url.pathname.includes('user')) {
+	if (browser && !session && !page.url.pathname.includes('user')) {
 		goto('/');
 	}
 </script>
@@ -33,9 +24,7 @@
 		}
 	}}
 />
-{#if $navigating}
-	<div class="fixed left-0 right-0 bottom-[90px] sm:top-0 h-0.5 bg-blue-500 drop-shadow animate-pulse duration-1000 z-[1000]"></div>
-{/if}
+
 <div
 	class="flex min-h-screen w-full justify-center bg-background text-foreground"
 	data-vaul-drawer-wrapper

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import ContributionListItem from '$lib/components/contribution/contribution-list-item.svelte';
 	import CustomButton from '$lib/components/custom-button.svelte';
 	import Page from '$lib/components/page/page.svelte';
 	import ImageUploader from '$lib/components/ui/image-uploader/image-uploader.svelte';
@@ -25,7 +24,6 @@
 					category.length < 2
 				) {
 					throw 'Incomplete data';
-					return;
 				}
 
 				const path = `/public/${name}_${Date.now()}.jpg`;
@@ -33,12 +31,13 @@
 					.from('show_images')
 					.upload(path, selectedFile);
 				console.log(storage);
-				const { data } = await supabase.client!.storage.from('show_images').getPublicUrl(path);
-				const response = await supabase
+				const { data } = supabase.client!.storage.from('show_images').getPublicUrl(path);
+				await supabase
 					.client!.from('shows')
 					.insert([{ name, playwright, tags: [category], image_url: data.publicUrl }])
 					.select('*');
 				selectedFile = null;
+
 				name = null;
 				playwright = null;
 				category = null;

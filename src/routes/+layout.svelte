@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import '../app.css';
-	import { goto, invalidate } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { supabase } from '$lib/supabase/client.svelte';
-	let { children, data } = $props();
+	import { onMount } from 'svelte';
 	import { ModeWatcher } from 'mode-watcher';
+
+	let { children, data } = $props();
 
 	supabase.client = data.supabase;
 	supabase.session = data.session;
@@ -45,7 +46,7 @@
 					// if (newSession?.expires_at !== supabase.session?.expires_at) {
 					// 	invalidate('supabase:auth');
 					// }
-					if(!newSession?.user) goto('/');
+					if (!newSession?.user) goto('/');
 					supabase.user = newSession?.user ?? null;
 					supabase.client
 						?.from('profiles')

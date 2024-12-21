@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase/client.svelte';
 
-	import { Heart, List, Search, Settings, SquarePen, Users } from 'lucide-svelte';
+	import { List, Search, Settings, Users } from 'lucide-svelte';
 	import CustomButton from '../custom-button.svelte';
-	import { page } from '$app/stores';
 	import SidebarItem from './sidebar-item.svelte';
 
 	async function signIn() {
@@ -13,7 +12,7 @@
 	}
 </script>
 
-<div class="sticky top-0 hidden h-screen min-w-72 px-4 pl-2 lg:flex pb-4 flex-col">
+<div class="sticky top-0 hidden h-screen min-w-72 flex-col px-4 pb-4 pl-2 lg:flex">
 	{#if supabase.session}
 		<div class="flex h-20 items-center py-4 font-serif text-4xl font-semibold">StageLog</div>
 
@@ -46,7 +45,7 @@
 			{#snippet icon()}
 				<img
 					src={supabase.userProfile?.avatar_url}
-					class="aspect-square -mr-1 -translate-x-[3px] w-[28px] rounded-full border border-border object-cover drop-shadow-xl"
+					class="-mr-1 aspect-square w-[28px] -translate-x-[3px] rounded-full border border-border object-cover drop-shadow-xl"
 					alt=""
 				/>
 			{/snippet}

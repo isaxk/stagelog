@@ -20,7 +20,7 @@
 			<img
 				src={data.show.image_url}
 				alt="Poster"
-				class="mx-auto aspect-square w-40 max-w-40 rounded-lg border border-border object-cover drop-shadow"
+				class="sticky top-0 mx-auto aspect-square w-40 max-w-40 rounded-lg border border-border object-cover drop-shadow"
 			/>
 			<div class="flex h-full w-full flex-col justify-between">
 				<div class="font-serif text-4xl font-medium">
@@ -70,11 +70,18 @@
 	</div>
 {:else}
 	<div class="relative h-[360px] w-full">
-		<img src={data.show.image_url} alt="Artwork" class="h-full w-full object-cover" />
+		<img
+			src={data.show.image_url}
+			alt="Artwork"
+			class="z-0 h-full w-full object-cover transition-all {(scrollY.current ?? 0) < 1
+				? 'fixed -top-1 left-0 max-h-[360px]'
+				: ''}"
+		/>
+
 		<div
 			class="fixed left-0 right-0 top-0 z-40 flex w-full flex-row items-center gap-4 p-4 pb-3 pt-ios-top transition-all {(scrollY.current ??
 				0) > 300
-				? 'bg-background drop-shadow-md border-b border-border'
+				? 'border-b border-border bg-background drop-shadow-md'
 				: 'bg-transparent'}"
 		>
 			<div class="">
@@ -87,12 +94,19 @@
 				</button>
 			</div>
 			{#if (scrollY.current ?? 0) > 300}
-				<div class="font-semibold text-lg flex-grow min-w-0 overflow-hidden text-nowrap text-ellipsis">
+				<div
+					class="min-w-0 flex-grow overflow-hidden text-ellipsis text-nowrap text-lg font-semibold"
+				>
 					{data.show.name}
 				</div>
 			{/if}
 		</div>
-		<div class="absolute inset-0 z-20 bg-gradient-to-t from-black/5 to-black/80"></div>
+		<div
+			class="inset-0 z-20 bg-gradient-to-t from-black/5 to-black/80 transition-all {(scrollY.current ??
+				0) < 1
+				? 'fixed -top-1 left-0 max-h-[360px]'
+				: 'absolute'}"
+		></div>
 	</div>
 	<div class="w-full p-4">
 		<div class="flex h-full w-full flex-col justify-between">

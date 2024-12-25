@@ -1,5 +1,6 @@
 <script lang="ts">
 	import UserCard from '$lib/components/profile-card/user-card.svelte';
+	import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
 	import { ArrowLeft } from 'lucide-svelte';
 	import { scrollY } from 'svelte/reactivity/window';
 
@@ -26,8 +27,14 @@
 		Following
 	</a>
 </div>
-<div class="p-4">
-	{#each data.followerProfiles as follower}
-		<UserCard profile={follower} />
-	{/each}
+<div class="flex flex-col gap-2 p-4">
+	{#await data.followerProfiles}
+		{#each data.following}
+			<Skeleton class="h-[60px]" />
+		{/each}
+	{:then profiles}
+		{#each profiles as follower}
+			<UserCard profile={follower} />
+		{/each}
+	{/await}
 </div>

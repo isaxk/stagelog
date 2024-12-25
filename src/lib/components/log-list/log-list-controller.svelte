@@ -1,20 +1,29 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase/client.svelte';
-	import { getDerivedData } from '$lib/supabase/database';
 	import type { Tables } from '$lib/supabase/types';
-	import type { RealtimeChannel } from '@supabase/supabase-js';
+	import type { YearGroup } from '$lib/types';
+	import type { RealtimeChannel, Session } from '@supabase/supabase-js';
 	import groupBy from 'just-group-by';
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
 
-	let { data, children, realtime = false } = $props();
+	let {
+		timeline,
+		shows,
+		session,
+		children,
+		realtime = false
+	}: {
+		timeline: Tables<'log_entries'>[];
+		shows: Promise<Tables<'shows'>[]>;
+		session: Session | null;
+		children: Snippet<[YearGroup[]]>;
+		realtime?: boolean;
+	} = $props();
 
-	let timeline = $state(data.timeline);
-	let shows: Tables<'shows'>[] = $state(data.shows);
+	let fulfilledShows: Tables<'shows'>[] | null = $state(null);
 	let groupedByYear = $derived(groupByYear(timeline, shows));
 
-	$inspect(groupedByYear);
-
-	function groupByYear(log: Tables<'log_entries'>[], shows: Tables<'shows'>[]) {
+	function groupByYear(log: Tables<'log_entries'>[], shows: Promise<Tables<'shows'>[]>) {
 		const sorted = log.toSorted((a, b) => {
 			if ((a.date ?? '0') > (b.date ?? '0')) {
 				return -1;
@@ -29,7 +38,11 @@
 				items: data.map((item) => {
 					return {
 						log_entry: item,
-						show: shows.find((o) => o.id === item.show_id) ?? null
+						show: !fulfilledShows
+							? new Promise((resolve) => {
+									shows.then((s) => resolve(s.find((i) => i.id === item.show_id)));
+								})
+							: new Promise((r) => r(fulfilledShows?.find((i) => i.id === item.show_id)))
 					};
 				})
 			};
@@ -56,7 +69,7 @@
 
 	async function initSubscriptions() {
 		if (!supabase.client) return;
-		const userid = data.session?.user.id;
+		const userid = session?.user.id;
 		const logInserts = supabase.client
 			.channel('log-inserts')
 			.on(
@@ -69,7 +82,7 @@
 				},
 				async (payload) => {
 					console.log(payload);
-					shows = await getShows([...timeline, payload.new]);
+					fulfilledShows = await getShows([...timeline, payload.new]);
 					timeline = [...timeline, payload.new];
 				}
 			)
@@ -114,7 +127,6 @@
 				}
 			)
 			.subscribe();
-		
 
 		return {
 			logInserts,
@@ -129,13 +141,11 @@
 		logDeletes: RealtimeChannel;
 	} | null = $state(null);
 
-	$inspect(subs);
-
 	onMount(() => {
 		if (realtime) {
-			initSubscriptions().then((e)=>{
+			initSubscriptions().then((e) => {
 				subs = e ?? null;
-			})
+			});
 			return () => {
 				if (subs) {
 					supabase.client!.removeChannel(subs?.logInserts);
@@ -150,9 +160,9 @@
 <svelte:document
 	onvisibilitychange={() => {
 		if (!document.hidden && realtime) {
-			initSubscriptions().then((e)=>{
+			initSubscriptions().then((e) => {
 				subs = e ?? null;
-			})
+			});
 		} else {
 			if (subs) {
 				supabase.client!.removeChannel(subs?.logInserts);

@@ -10,11 +10,13 @@
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
 	import { supabase } from '$lib/supabase/client.svelte';
 	import type { YearGroup } from '$lib/types/index.js';
+	import { groupByYear } from '$lib/utils/array';
 	import { onMount } from 'svelte';
 	import { toast } from 'svelte-sonner';
 	import { flip } from 'svelte/animate';
 	import { scrollY } from 'svelte/reactivity/window';
 	import { fade, fly } from 'svelte/transition';
+	import { cn } from '$lib/utils';
 	import { Drawer } from 'vaul-svelte';
 
 	let { data } = $props();
@@ -28,7 +30,7 @@
 	let editProfileOpen = $state(false);
 	let updatingProfile = $state(false);
 
-	$inspect(newAvatar);
+	const timeline = groupByYear(data.timeline, data.shows);
 
 	let mounted = $state(false);
 	onMount(() => (mounted = true));
@@ -82,8 +84,6 @@
 			.eq('following', data.profile.id);
 		following = false;
 	}
-
-	$inspect(data);
 </script>
 
 <svelte:head>
@@ -128,9 +128,12 @@
 	</div>
 {/snippet}
 
-<div class="sm:hidden contents">
+<div class="contents sm:hidden">
 	{#if (scrollY.current ?? 0) > 50}
-		<div transition:fade={{duration:150}} class="pt-ios-top justify-center fixed left-0 top-0 min-h-20 flex items-center p-4 pb-3 z-50 border-b border-border drop-shadow right-0 w-full bg-background">
+		<div
+			transition:fade={{ duration: 150 }}
+			class="fixed left-0 right-0 top-0 z-50 flex min-h-20 w-full items-center justify-center border-b border-border bg-background p-4 pb-3 pt-ios-top drop-shadow"
+		>
 			<div class="text-lg font-semibold">{data.profile.username}</div>
 		</div>
 	{/if}
@@ -191,9 +194,7 @@
 										>
 									</Drawer.Trigger>
 									<Drawer.Portal>
-										<Drawer.Overlay
-											class="fixed inset-0 bg-black/60 backdrop-blur-[1px]"
-										/>
+										<Drawer.Overlay class="fixed inset-0 bg-black/60 backdrop-blur-[1px]" />
 										<Drawer.Content
 											class="fixed bottom-0 left-0 right-0 z-20 flex h-drawer flex-col rounded-t-lg bg-background outline-none"
 										>
@@ -254,25 +255,20 @@
 		<div
 			class="min-h-96 border-t border-border bg-background p-4 lg:rounded-md lg:border-x lg:drop-shadow-sm"
 		>
-			<LogListController {data}>
-				{#snippet children(groupedByYear: YearGroup[])}
-					{#if groupedByYear.length > 0 && mounted}
-						{#each groupedByYear as year, i (year.year)}
-							<LogListYear {year}>
-								{#each year.items as item, x (item.log_entry.id)}
-									<div
-										in:fly={{ duration: 200 }}
-										out:fade={{ duration: 200 }}
-										animate:flip={{ duration: 200 }}
-									>
-										<LogListItem {i} {item} profile={data.profile} />
-									</div>
-								{/each}
-							</LogListYear>
-						{/each}
-					{/if}
-				{/snippet}
-			</LogListController>
+			{#each timeline as year}
+				<LogListYear {year}>
+					{#each year.items as item, i}
+						<divs
+							class={cn('h-[72px] min-h-[72px]', {
+								'h-[105px] lg:h-[72px]': item.log_entry.comments,
+								'h-[100px] lg:h-[72px]': !item.log_entry.comments
+							})}
+						>
+							<LogListItem {i} {item} profile={data.profile} />
+						</divs>
+					{/each}
+				</LogListYear>
+			{/each}
 		</div>
 	</div>
 	<div class="h-20 lg:h-0"></div>

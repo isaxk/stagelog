@@ -6,11 +6,14 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { page, navigating } from '$app/state';
-	import { scale } from 'svelte/transition';
+	import { fade, scale } from 'svelte/transition';
+	import { onMount } from 'svelte';
 
 	let { children, data } = $props();
 
 	let { session } = $state(data);
+
+	onMount(() => {});
 
 	if (browser && !session && !page.url.pathname.includes('user')) {
 		goto('/');
@@ -33,8 +36,8 @@
 		<DesktopSidebar />
 		{#key data.url}
 			<div
-				class="w-full flex-grow bg-background pb-20 transition-all lg:pb-0 lg:drop-shadow dark:lg:border-x"
-				in:scale={{ start: 1.01, duration: 150 }}
+				class="w-full max-w-screen-md flex-grow bg-background pb-20 transition-all lg:pb-0 lg:drop-shadow dark:lg:border-x"
+				in:scale={{ duration: 200, start: 1.005 }}
 			>
 				{@render children()}
 			</div>
@@ -47,6 +50,6 @@
 
 <style lang="postcss">
 	:global(body) {
-		@apply overflow-x-hidden bg-background;
+		@apply overflow-x-hidden overflow-y-scroll bg-background;
 	}
 </style>

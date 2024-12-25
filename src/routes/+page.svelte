@@ -10,6 +10,10 @@
 		}
 	});
 
+	// using cdn
+	// import glaze from "https://esm.sh/glazejs";
+	// import gsap from "https://esm.sh/gsap";
+
 	function signIn() {
 		supabase.client?.auth.signInWithOAuth({
 			provider: 'google',

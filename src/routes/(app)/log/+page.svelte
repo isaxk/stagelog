@@ -11,15 +11,19 @@
 	import Page from '$lib/components/page/page.svelte';
 	import AddToTimeline from '$lib/components/show-list/add-to-timeline.svelte';
 	import ShowListItemCard from '$lib/components/show-list/show-list-item-card.svelte';
+	import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
+	import { fade } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 
 	let { data } = $props();
 
 	const { supabase, mobile } = data;
 
 	let query = $state('');
-	let featured: Tables<'shows'>[] = $state(data.featured);
+	let featured: Promise<Tables<'shows'>[]> = $state(data.featured);
 	let showingFeatured = $state(true);
-	let results: Tables<'shows'>[] = $state(featured);
+	let results: Tables<'shows'>[] = $state([]);
+	featured.then((f) => (results = f));
 
 	type SelectedItem = {
 		location: string;
@@ -34,20 +38,24 @@
 
 	const search = debounce(async () => {
 		if (query.length < 1) {
-			results = featured;
+			results = await featured;
 			showingFeatured = true;
 		} else {
-			const res = await supabase
-				.from('shows')
-				.select('*')
-				.textSearch('name', query, {
-					type: 'phrase'
-				})
-				.or(`in_review.eq.false, creator_id.eq.${data.session?.user.id}`);
-			results = res.data ?? [];
+			async function getResults() {
+				const res = await supabase
+					.from('shows')
+					.select('*')
+					.textSearch('name', query, {
+						type: 'phrase'
+					})
+					.or(`in_review.eq.false, creator_id.eq.${data.session?.user.id}`);
+				return res.data ?? [];
+			}
+
+			results = await getResults();
 			showingFeatured = false;
 		}
-	});
+	}, 300);
 
 	async function handleTimeline(item: any) {
 		const { data, error } = await supabase.from('log_entries').insert([item]).select('*');
@@ -70,17 +78,20 @@
 		placeholder="Search for shows..."
 	/>
 	<div class="flex min-h-0 flex-grow flex-col gap-2 overflow-y-scroll py-4">
-		{#if results.length > 0}
-			{#if showingFeatured}
-				<div class="text-lg font-medium">Featured:</div>
-			{/if}
+		{#await featured}
+			{#each { length: query.length > 2 ? 1 : 10 }}
+				<div class="contents" in:fade={{ duration: 0, delay: 500 }}>
+					<Skeleton class="h-[98px]" />
+				</div>
+			{/each}
+		{:then}
 			{#each results as result, i (result.id)}
-				<div class="flex gap-3 w-full">
+				<div class="flex w-full gap-3" in:fade={{ duration: 200 }}>
 					<AddToTimeline {mobile} show={result} />
 					<ShowListItemCard show={result} />
 				</div>
 			{/each}
-		{/if}
+		{/await}
 		<p class="py-2 text-sm">
 			Can't find the show you're looking for? <a
 				href="/contribute"

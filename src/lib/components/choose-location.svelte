@@ -39,7 +39,7 @@
 		// 	.eq('show', id)
 		// 	.eq('tour', true);
 		const locations = await supabase.client.from('districts').select('*');
-		productions = locations.data??[];
+		productions = locations.data ?? [];
 	});
 
 	function incrementStage(increment: number) {
@@ -66,10 +66,13 @@
 					Comments
 				{/if}
 			</div>
-			<Drawer.Close
+			<button
+				type="submit"
 				onclick={() => onchoose(selectedLocation, selectedDate, rating, comments, id)}
-				class="w-20 text-right font-medium {currentStage !== 2 ? 'text-muted-foreground' : 'text-blue-500'}"
-				disabled={currentStage !== 2}>Done</Drawer.Close
+				class="w-20 text-right font-medium {currentStage !== 2
+					? 'text-muted-foreground'
+					: 'text-blue-500'}"
+				disabled={currentStage !== 2}>Done</button
 			>
 		</div>
 	</div>
@@ -78,7 +81,7 @@
 		<div class="flex gap-4">
 			<button
 				onclick={() => incrementStage(-1)}
-				disabled={currentStage<1}
+				disabled={currentStage < 1}
 				class="flex w-14 items-center gap-1 text-left text-blue-400 disabled:text-muted-foreground"
 				><ArrowLeft size={16} /> Back</button
 			>
@@ -155,13 +158,13 @@
 			{:else if currentStage === 2}
 				<form class="h-full w-full flex-col p-4" onsubmit={(e) => e.preventDefault()}>
 					<div class="text-lg font-medium">Rating:</div>
-					<Rating bind:value={rating} small={false} profile={false}/>
+					<Rating bind:value={rating} small={false} profile={false} />
 					<div class="py-2 text-lg font-medium">Comments:</div>
-					<Textarea class="h-72 resize-none" bind:value={comments}/>
+					<Textarea class="h-72 resize-none" bind:value={comments} />
 					<div class="h-4"></div>
 					<Dialog.Close
 						type="submit"
-						class="w-full hidden lg:block"
+						class="hidden w-full lg:block"
 						onclick={() => onchoose(selectedLocation, selectedDate, rating, comments, id)}
 						><CustomButton onclick={() => {}}>Done</CustomButton></Dialog.Close
 					>

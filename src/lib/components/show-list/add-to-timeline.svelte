@@ -25,6 +25,7 @@
 		comments: string,
 		show_id: number
 	) {
+		open = false;
 		toast.promise(
 			async () => {
 				const { data, error } = await supabase
@@ -49,20 +50,23 @@
 			}
 		);
 	}
+
+	let open = $state(false);
 </script>
 
-
 {#if !lg.current}
-	<Drawer.Root shouldScaleBackground>
+	<Drawer.Root shouldScaleBackground bind:open>
 		<Drawer.Trigger class="z-0 p-1 outline-none">
 			{#if bigButton}
-				<CustomButton onclick={() => {}} class="min-w-40 w-full px-0">Add to timeline</CustomButton>
+				<CustomButton onclick={() => {}} class="w-full min-w-40 px-0">Add to timeline</CustomButton>
 			{:else}
 				<PlusCircle />
 			{/if}
 		</Drawer.Trigger>
 		<Drawer.Portal>
-			<Drawer.Overlay class="fixed inset-0 bg-black/60 dark:bg-black/60 backdrop-blur-[1px] dark:backdrop-blur-[0.5px]" />
+			<Drawer.Overlay
+				class="fixed inset-0 bg-black/60 backdrop-blur-[1px] dark:bg-black/60 dark:backdrop-blur-[0.5px]"
+			/>
 			<Drawer.Content
 				class="fixed bottom-0 left-0 right-0 z-20 flex h-drawer flex-col rounded-t-lg bg-background outline-none"
 			>
@@ -71,7 +75,7 @@
 		</Drawer.Portal>
 	</Drawer.Root>
 {:else}
-	<Dialog.Root>
+	<Dialog.Root bind:open>
 		<Dialog.Trigger class="p-1"
 			>{#if bigButton}
 				<CustomButton onclick={() => {}} class="min-w-40 px-0">Add to timeline</CustomButton>

@@ -28,6 +28,14 @@
 		data.timeline[existing] = { ...data.timeline[existing], ...newVal };
 		timeline = groupByYear(data.timeline, data.shows);
 	}
+
+	async function handleDelete(id: number) {
+		await supabase.client!.from('log_entries').delete().eq('id', id);
+		const existing = data.timeline.findIndex((i) => i.id === id);
+		data.timeline.splice(existing, 1);
+		console.log(data.timeline);
+		timeline = groupByYear(data.timeline, data.shows);
+	}
 </script>
 
 <svelte:head>
@@ -73,7 +81,13 @@
 						})}
 						animate:flip={{ duration: 200 }}
 					>
-						<LogListItem {i} {item} profile={null} onUpdate={handleUpdate} onDelete={() => {}} />
+						<LogListItem
+							{i}
+							{item}
+							profile={null}
+							onUpdate={handleUpdate}
+							onDelete={handleDelete}
+						/>
 					</div>
 				{/each}
 			</LogListYear>

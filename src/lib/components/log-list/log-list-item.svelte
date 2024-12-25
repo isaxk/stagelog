@@ -69,14 +69,7 @@
 	}, 500);
 
 	async function deleteLog() {
-		if (!supabase.client) return;
-		const { data, error } = await supabase.client
-			.from('log_entries')
-			.delete()
-			.eq('id', log.id)
-			.select('*');
-
-		console.log(data, error);
+		onDelete(log.id);
 	}
 
 	let datePickerOpen = $state(false);

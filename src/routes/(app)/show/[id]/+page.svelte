@@ -69,7 +69,7 @@
 		</div>
 	</div>
 {:else}
-	<div class="fixed -left-10 -right-10 -top-10 -z-10 z-0 h-32">
+	<div class="fixed -left-10 -right-10 -top-10 -z-10 h-[500px]">
 		<img
 			src={data.show.image_url}
 			alt="Artwork"

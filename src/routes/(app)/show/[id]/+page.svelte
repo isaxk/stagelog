@@ -69,13 +69,18 @@
 		</div>
 	</div>
 {:else}
+	<div class="fixed -left-10 -right-10 -top-10 -z-10 z-0 h-32">
+		<img
+			src={data.show.image_url}
+			alt="Artwork"
+			class="z-0 h-full w-full object-cover object-top blur-xl brightness-[20%] transition-all"
+		/>
+	</div>
 	<div class="relative h-[360px] w-full">
 		<img
 			src={data.show.image_url}
 			alt="Artwork"
-			class="z-0 h-full w-full object-cover transition-all {(scrollY.current ?? 0) < 1
-				? 'fixed left-0 top-0 max-h-[360px]'
-				: ''}"
+			class="z-0 h-full w-full object-cover transition-all"
 		/>
 
 		<div
@@ -102,10 +107,7 @@
 			{/if}
 		</div>
 		<div
-			class="inset-0 z-20 bg-gradient-to-t from-black/5 to-black/80 transition-all {(scrollY.current ??
-				0) < 1
-				? 'fixed -top-0.5 left-0 max-h-[360px]'
-				: 'absolute'}"
+			class="absolute inset-0 z-20 bg-gradient-to-t from-black/5 to-black/80 transition-all"
 		></div>
 	</div>
 	<div class="w-full p-4">

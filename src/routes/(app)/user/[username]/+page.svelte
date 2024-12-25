@@ -138,6 +138,7 @@
 		</div>
 	{/if}
 </div>
+<div class="fixed left-0 right-0 top-0 -z-10 h-32 bg-blue-200"></div>
 <div class="w-full">
 	<div class="relative top-0 flex h-60 w-full flex-col gap-4 bg-background lg:h-52">
 		<div class="min-h-32 bg-blue-200"></div>

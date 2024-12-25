@@ -138,8 +138,13 @@
 		</div>
 	{/if}
 </div>
-<div class="fixed left-0 right-0 top-0 -z-10 h-[500px] bg-blue-200"></div>
-<div class="w-full">
+{#if mounted}
+	<div
+		class="fixed left-0 right-0 top-0 -z-10 h-[500px] bg-blue-200"
+		in:fade={{ duration: 200, delay: 200 }}
+	></div>
+{/if}
+<div class="z-20 w-full">
 	<div class="relative top-0 flex h-60 w-full flex-col gap-4 bg-background lg:h-52">
 		<div class="min-h-32 bg-blue-200"></div>
 		<div class="absolute left-0 top-[76px] flex justify-center lg:top-24">

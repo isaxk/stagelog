@@ -3,10 +3,15 @@
 	import AddToTimeline from '$lib/components/show-list/add-to-timeline.svelte';
 	import type { Tables } from '$lib/supabase/types';
 	import { ArrowLeft } from 'lucide-svelte';
+	import { onMount } from 'svelte';
 	import { MediaQuery } from 'svelte/reactivity';
 	import { scrollY } from 'svelte/reactivity/window';
+	import { fade } from 'svelte/transition';
 
 	let { data } = $props();
+
+	let mounted = $state(false);
+	onMount(() => (mounted = true));
 
 	let sm = new MediaQuery('(min-width: 640px)');
 </script>
@@ -69,13 +74,18 @@
 		</div>
 	</div>
 {:else}
-	<div class="fixed -left-10 -right-10 -top-10 -z-10 h-[500px]">
-		<img
-			src={data.show.image_url}
-			alt="Artwork"
-			class="z-0 h-full w-full object-cover object-top blur-xl brightness-[20%] transition-all"
-		/>
-	</div>
+	{#if mounted}
+		<div
+			class="fixed -left-10 -right-10 -top-10 -z-10 h-[500px]"
+			in:fade={{ duration: 200, delay: 200 }}
+		>
+			<img
+				src={data.show.image_url}
+				alt="Artwork"
+				class="z-0 h-full w-full object-cover object-top blur-xl brightness-[20%] transition-all"
+			/>
+		</div>
+	{/if}
 	<div class="relative h-[360px] w-full">
 		<img
 			src={data.show.image_url}

@@ -74,7 +74,7 @@
 			src={data.show.image_url}
 			alt="Artwork"
 			class="z-0 h-full w-full object-cover transition-all {(scrollY.current ?? 0) < 1
-				? 'fixed -top-1 left-0 max-h-[360px]'
+				? 'fixed left-0 top-0 max-h-[360px]'
 				: ''}"
 		/>
 
@@ -104,7 +104,7 @@
 		<div
 			class="inset-0 z-20 bg-gradient-to-t from-black/5 to-black/80 transition-all {(scrollY.current ??
 				0) < 1
-				? 'fixed -top-1 left-0 max-h-[360px]'
+				? 'fixed -top-0.5 left-0 max-h-[360px]'
 				: 'absolute'}"
 		></div>
 	</div>

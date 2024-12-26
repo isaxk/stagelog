@@ -94,10 +94,10 @@
 		/>
 
 		<div
-			class="fixed left-0 right-0 top-0 z-40 flex w-full flex-row items-center gap-4 p-4 pb-3 pt-ios-top transition-all {(scrollY.current ??
+			class="fixed left-0 right-0 top-0 z-40 flex w-full flex-row items-center gap-4 border-b p-4 pb-3 pt-ios-top transition-all duration-200 {(scrollY.current ??
 				0) > 300
-				? 'border-b border-border bg-background drop-shadow-md'
-				: 'bg-transparent'}"
+				? 'border-border bg-background drop-shadow'
+				: 'border-transparent bg-transparent'}"
 		>
 			<div class="">
 				<button
@@ -110,6 +110,7 @@
 			</div>
 			{#if (scrollY.current ?? 0) > 300}
 				<div
+					transition:fade={{ duration: 200 }}
 					class="min-w-0 flex-grow overflow-hidden text-ellipsis text-nowrap text-lg font-semibold"
 				>
 					{data.show.name}

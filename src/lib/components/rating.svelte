@@ -37,14 +37,13 @@
 			>
 				{#each Array(5), i (i)}
 					<button
-					class="outline-none"
+						class="outline-none"
 						onclick={() => {
 							if (sm) {
 								if (profile) return;
 								value = i + 1;
 								onchange(value);
-							}
-							else {
+							} else {
 								drawer = true;
 							}
 						}}
@@ -67,7 +66,7 @@
 		onmouseenter={() => (hovered = !profile)}
 		onmouseleave={() => (hovered = false)}
 	>
-		{#each Array((hovered || !small) && !profile ? 5 : value), i (i)}
+		{#each Array(((hovered && sm.current) || !small) && !profile ? 5 : value), i (i)}
 			<button
 				onclick={() => {
 					if (profile) return;

@@ -77,12 +77,12 @@
 	{#if mounted}
 		<div
 			class="fixed -left-10 -right-10 -top-10 -z-10 h-[500px]"
-			in:fade={{ duration: 200, delay: 200 }}
+			in:fade={{ duration: 200, delay: 400 }}
 		>
 			<img
 				src={data.show.image_url}
 				alt="Artwork"
-				class="z-0 h-full w-full object-cover object-top blur-xl brightness-[20%] transition-all"
+				class="z-0 h-full w-full object-cover object-top blur-xl brightness-[22%] transition-all"
 			/>
 		</div>
 	{/if}

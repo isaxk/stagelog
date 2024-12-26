@@ -141,7 +141,7 @@
 {#if mounted}
 	<div
 		class="fixed left-0 right-0 top-0 -z-10 h-[500px] bg-blue-200"
-		in:fade={{ duration: 200, delay: 200 }}
+		in:fade={{ duration: 200, delay: 400 }}
 	></div>
 {/if}
 <div class="z-20 w-full">

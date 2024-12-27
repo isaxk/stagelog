@@ -6,7 +6,7 @@
 	import { PlusCircle } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
 	import CustomButton from '../custom-button.svelte';
-	import DetailsPicker from '../details-picker/details-picker.svelte';
+	import DetailsPicker from '$lib/components/details-picker/details-picker.svelte';
 	import type { DateValue } from '@internationalized/date';
 	import { browserClient } from '$lib/supabase/client';
 

@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
-import { Upload } from 'lucide-svelte';
+	import { Upload } from 'lucide-svelte';
 
 	let { class: className = '', defaultSrc = '', file = $bindable(null) } = $props();
 
 	let imgSrc: string | null = $state(defaultSrc);
 
-	$effect(()=>{
-		if(!file) imgSrc = defaultSrc ?? null;
-	})
+	$effect(() => {
+		if (!file) imgSrc = defaultSrc ?? null;
+	});
 </script>
 
 <input
@@ -20,17 +20,21 @@ import { Upload } from 'lucide-svelte';
 		//@ts-ignore;
 		const [f] = evt.target!.files;
 		if (f) {
-			file=f;
+			file = f;
 			imgSrc = URL.createObjectURL(f);
-		}
-		else {
+		} else {
 			imgSrc = null;
 		}
 	}}
 />
-<div class={cn('relative aspect-square h-40 min-w-40 rounded-lg bg-zinc-300 overflow-hidden border border-white drop-shadow', className)}>
+<div
+	class={cn(
+		'relative aspect-square h-40 min-w-40 overflow-hidden rounded-lg border border-white bg-zinc-300 drop-shadow',
+		className
+	)}
+>
 	{#if imgSrc}
-		<img src={imgSrc} alt="" class="absolute inset-0 aspect-square object-cover w-full h-full" />
+		<img src={imgSrc} alt="" class="absolute inset-0 aspect-square h-full w-full object-cover" />
 	{/if}
 	<label
 		for="upload-btn"

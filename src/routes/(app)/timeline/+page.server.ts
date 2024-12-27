@@ -1,4 +1,4 @@
-import type { Tables } from '$lib/supabase/types';
+import type { Tables } from '$lib/types/supabase';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession } }) => {
@@ -21,7 +21,7 @@ export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession 
 			.select('*')
 			.in(
 				'id',
-				timeline?.map((o) => o.show_id)
+				timeline!.map((o) => o.show_id)
 			);
 		return data ?? [];
 	}

@@ -1,26 +1,22 @@
 <script lang="ts">
-	import { supabase } from '$lib/supabase/client.svelte';
-	import { onMount } from 'svelte';
 	import { Drawer } from 'vaul-svelte';
-	import ChooseLocation from '../choose-location.svelte';
-	import { getLocalTimeZone, today } from '@internationalized/date';
-	import { acts } from '@tadashi/svelte-notification';
-	import { fly } from 'svelte/transition';
-	import ShowListItemCard from './show-list-item-card.svelte';
 	import * as Dialog from '../ui/dialog';
-	import type { Tables } from '$lib/supabase/types';
+	import type { Tables } from '$lib/types/supabase';
 	import { MediaQuery } from 'svelte/reactivity';
 	import { PlusCircle } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
 	import CustomButton from '../custom-button.svelte';
+	import DetailsPicker from '../details-picker/details-picker.svelte';
+	import type { DateValue } from '@internationalized/date';
+	import { browserClient } from '$lib/supabase/client';
 
-	let { show, mobile, bigButton = false } = $props();
+	let { show, bigButton = false } = $props();
 
 	const lg = new MediaQuery('min-width: 1000px');
 
 	async function handleSubmit(
 		location: Tables<'districts'>,
-		date: any,
+		date: DateValue,
 		rating: number,
 		comments: string,
 		show_id: number
@@ -28,8 +24,9 @@
 		open = false;
 		toast.promise(
 			async () => {
-				const { data, error } = await supabase
-					.client!.from('log_entries')
+				const supabase = await browserClient();
+				const { error } = await supabase
+					.from('log_entries')
 					.insert([
 						{
 							location: location.name,
@@ -40,13 +37,14 @@
 						}
 					])
 					.select('*');
+				return { error };
 			},
 			{
 				loading: 'Loading...',
-				success: (data) => {
+				success: () => {
 					return `Show has been added to your timeline`;
 				},
-				error: 'Error'
+				error: 'An error occured'
 			}
 		);
 	}
@@ -70,7 +68,7 @@
 			<Drawer.Content
 				class="fixed bottom-0 left-0 right-0 z-20 flex h-drawer flex-col rounded-t-lg bg-background outline-none"
 			>
-				<ChooseLocation id={show.id} onchoose={handleSubmit} mobile={true} />
+				<DetailsPicker id={show.id} onchoose={handleSubmit} drawer />
 			</Drawer.Content>
 		</Drawer.Portal>
 	</Drawer.Root>
@@ -86,7 +84,7 @@
 		<Dialog.Content
 			class="flex h-[600px] w-full max-w-screen-sm flex-col overflow-hidden bg-background"
 		>
-			<ChooseLocation id={show.id} onchoose={handleSubmit} {mobile} />
+			<DetailsPicker id={show.id} onchoose={handleSubmit} />
 		</Dialog.Content>
 	</Dialog.Root>
 {/if}

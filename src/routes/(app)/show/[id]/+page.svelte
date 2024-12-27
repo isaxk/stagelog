@@ -1,17 +1,19 @@
 <script lang="ts">
 	import ShowPageLogItem from '$lib/components/log-list/show-page-log-item.svelte';
 	import AddToTimeline from '$lib/components/show-list/add-to-timeline.svelte';
-	import type { Tables } from '$lib/supabase/types';
+	import type { Tables } from '$lib/types/supabase';
 	import { ArrowLeft } from 'lucide-svelte';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
+	import { cubicOut } from 'svelte/easing';
 	import { MediaQuery } from 'svelte/reactivity';
 	import { scrollY } from 'svelte/reactivity/window';
-	import { fade } from 'svelte/transition';
+	import { fade, scale } from 'svelte/transition';
 
 	let { data } = $props();
 
 	let mounted = $state(false);
 	onMount(() => (mounted = true));
+	onDestroy(() => (mounted = false));
 
 	let sm = new MediaQuery('(min-width: 640px)');
 </script>
@@ -61,7 +63,7 @@
 					{/if}
 				</div>
 			</div>
-			<AddToTimeline show={data.show} mobile={false} bigButton />
+			<AddToTimeline show={data.show} bigButton />
 		</div>
 		<div class="h-4"></div>
 		<div class="flex min-h-96 flex-col gap-2 rounded-md border bg-background p-4 drop-shadow-sm">
@@ -76,8 +78,8 @@
 {:else}
 	{#if mounted}
 		<div
-			class="fixed -left-10 -right-10 -top-10 -z-10 h-[500px]"
-			in:fade={{ duration: 200, delay: 400 }}
+			in:fade={{ duration: 200, delay: 1000 }}
+			class={['fixed -left-10 -right-10 -top-10 -z-10 h-[360px] transition-all']}
 		>
 			<img
 				src={data.show.image_url}
@@ -87,35 +89,36 @@
 		</div>
 	{/if}
 	<div class="relative h-[360px] w-full">
-		<img
-			src={data.show.image_url}
-			alt="Artwork"
-			class="z-0 h-full w-full object-cover transition-all"
-		/>
-
-		<div
-			class="fixed left-0 right-0 top-0 z-40 flex w-full flex-row items-center gap-4 border-b p-4 pb-3 pt-ios-top transition-all duration-200 {(scrollY.current ??
-				0) > 300
-				? 'border-border bg-background drop-shadow'
-				: 'border-transparent bg-transparent'}"
-		>
-			<div class="">
+		{#if mounted}
+			<img
+				transition:fade={{ duration: 200, delay: 150, easing: cubicOut }}
+				src={data.show.image_url}
+				alt="Artwork"
+				class="z-0 h-full w-full object-cover transition-all"
+			/>
+		{/if}
+		<div class="fixed left-0 right-0 top-0 z-40 flex items-center">
+			<div class="absolute left-0 top-0 z-50 pl-4 pt-ios-top">
 				<button
-					class="block rounded-full p-2 drop-shadow-md {(scrollY.current ?? 0) > 300
+					class="block rounded-full p-2 transition-all duration-200 {(scrollY.current ?? 0) > 290
 						? 'text-foreground'
-						: 'bg-black/80 text-white'}"
+						: 'bg-black/80 text-white drop-shadow-md'}"
 					onclick={() => history.back()}
 					><ArrowLeft />
 				</button>
 			</div>
-			{#if (scrollY.current ?? 0) > 300}
+			<div
+				style:opacity={((scrollY.current ?? 0) - 200) / 100}
+				class="flex h-full w-full items-center gap-4 border-border bg-background px-4 pb-3 pt-ios-top drop-shadow"
+			>
+				<div class="w-10"></div>
 				<div
 					transition:fade={{ duration: 200 }}
-					class="min-w-0 flex-grow overflow-hidden text-ellipsis text-nowrap text-lg font-semibold"
+					class="min-w-0 flex-grow overflow-hidden text-ellipsis text-nowrap pt-1.5 text-lg font-semibold"
 				>
 					{data.show.name}
 				</div>
-			{/if}
+			</div>
 		</div>
 		<div
 			class="absolute inset-0 z-20 bg-gradient-to-t from-black/5 to-black/80 transition-all"

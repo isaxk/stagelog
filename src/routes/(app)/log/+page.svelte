@@ -2,7 +2,7 @@
 	import { beforeNavigate, goto, onNavigate } from '$app/navigation';
 	import CustomButton from '$lib/components/custom-button.svelte';
 	import ShowListItemWrapper from '$lib/components/show-list/add-to-timeline.svelte';
-	import type { Tables } from '$lib/supabase/types';
+	import type { Tables } from '$lib/types/supabase';
 	import { debounce } from '$lib/utils/time';
 	import { Heart, List } from 'lucide-svelte';
 	import { onMount } from 'svelte';

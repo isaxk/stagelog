@@ -37,11 +37,13 @@
 {#if ios}
 	<Drawer.Root shouldScaleBackground>
 		<Drawer.Trigger
-			class="flex rounded-lg drop-shadow -mt-4 mb-4 h-14 w-full items-center gap-4 bg-black dark:bg-zinc-200 px-4 text-left text-white dark:text-black"
+			class="-mt-4 mb-4 flex h-14 w-full items-center gap-4 rounded-lg bg-black px-4 text-left text-white drop-shadow dark:bg-zinc-200 dark:text-black"
 		>
 			<Download />
 			<div class="flex-grow text-xl">Install App</div>
-			<div class="rounded-full bg-white px-4 py-1 text-black dark:bg-black/80 dark:text-white">Install</div>
+			<div class="rounded-full bg-white px-4 py-1 text-black dark:bg-black/80 dark:text-white">
+				Install
+			</div>
 		</Drawer.Trigger>
 		<Drawer.Portal>
 			<Drawer.Overlay class="fixed inset-0 bg-black/80 backdrop-blur-[1px] backdrop-saturate-50" />
@@ -62,11 +64,11 @@
 					</div>
 					<div class="flex items-center">
 						<div class="flex-grow text-lg">2. Scroll down and select "Add to home screen"</div>
-						<img src={step2} class="w-1/2 drop-shadow" />
+						<img src={step2} class="w-1/2 drop-shadow" alt="Step2" />
 					</div>
 					<div class="flex items-center">
 						<div class="flex-grow text-lg">3. Select Add</div>
-						<img src={step3} class="w-1/2 drop-shadow" />
+						<img src={step3} class="w-1/2 drop-shadow" alt="Step3" />
 					</div>
 				</div>
 			</Drawer.Content>

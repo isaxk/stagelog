@@ -4,17 +4,16 @@
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/';
 	import { supabase } from '$lib/supabase/client.svelte';
-	import type { Tables } from '$lib/supabase/types';
+	import type { Tables } from '$lib/types/supabase';
 	import { debounce } from '$lib/utils/time';
 	import { getLocalTimeZone, parseDate, today, type DateValue } from '@internationalized/date';
 	import { CalendarClock, EllipsisVertical, Pencil, Trash } from 'lucide-svelte';
 	import Calendar from '../ui/calendar/calendar.svelte';
 	import Textarea from '../ui/textarea/textarea.svelte';
-	import { fade, slide } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { MediaQuery } from 'svelte/reactivity';
 	import Skeleton from '../ui/skeleton/skeleton.svelte';
 	import { DateTime } from 'luxon';
-	import { onMount } from 'svelte';
 
 	let {
 		i,
@@ -37,15 +36,13 @@
 	let rating = $state(item.log_entry.rating);
 	let date = $derived(item.log_entry.date);
 
-	const dateDisplay = $derived(DateTime.fromSQL(date).toFormat('MMM dd').split(' '));
+	const dateDisplay = $derived(DateTime.fromSQL(date!).toFormat('MMM dd').split(' '));
 
 	async function handleRatingChange(value: number) {
 		onUpdate(log.id, { rating: value });
 	}
 
-	async function handleDateChange(value: DateValue) {
-		const zeroPad = (num, places) => String(num).padStart(places, '0');
-
+	async function handleDateChange(value: DateValue | undefined) {
 		datePickerOpen = false;
 		if (!value) return;
 
@@ -90,7 +87,7 @@
 			type="single"
 			value={parseDate(date ?? '')}
 			maxValue={today(getLocalTimeZone())}
-			onValueChange={(e: any) => handleDateChange(e)}
+			onValueChange={handleDateChange}
 		></Calendar>
 	</Dialog.Content>
 </Dialog.Root>

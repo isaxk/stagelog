@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Check, Clock, X } from 'lucide-svelte';
 
-	let { name, img, status='pending' } = $props();
+	let { name, img, status = 'pending' } = $props();
 </script>
 
 <div class="flex items-center gap-2 rounded-md bg-card p-2 drop-shadow">

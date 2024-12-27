@@ -4,7 +4,7 @@
 	import LogListYear from '$lib/components/log-list/log-list-year.svelte';
 	import Page from '$lib/components/page/page.svelte';
 	import { supabase } from '$lib/supabase/client.svelte';
-	import type { Tables } from '$lib/supabase/types';
+	import type { Tables } from '$lib/types/supabase';
 	import type { YearGroup } from '$lib/types/index';
 	import { groupByYear } from '$lib/utils/array';
 	import { flip } from 'svelte/animate';

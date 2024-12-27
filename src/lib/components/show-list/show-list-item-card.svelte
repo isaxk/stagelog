@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase/client.svelte';
-	import type { Tables } from '$lib/supabase/types';
+	import type { Tables } from '$lib/types/supabase';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 

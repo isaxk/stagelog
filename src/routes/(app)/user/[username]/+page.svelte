@@ -2,20 +2,17 @@
 	import { goto } from '$app/navigation';
 	import CustomButton from '$lib/components/custom-button.svelte';
 	import DesktopQuery from '$lib/components/layout/desktop-query.svelte';
-	import LogListController from '$lib/components/log-list/log-list-controller.svelte';
 	import LogListItem from '$lib/components/log-list/log-list-item.svelte';
 	import LogListYear from '$lib/components/log-list/log-list-year.svelte';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import ImageUploader from '$lib/components/ui/image-uploader/image-uploader.svelte';
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
 	import { supabase } from '$lib/supabase/client.svelte';
-	import type { YearGroup } from '$lib/types/index.js';
 	import { groupByYear } from '$lib/utils/array';
 	import { onMount } from 'svelte';
 	import { toast } from 'svelte-sonner';
-	import { flip } from 'svelte/animate';
 	import { scrollY } from 'svelte/reactivity/window';
-	import { fade, fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { cn } from '$lib/utils';
 	import { Drawer } from 'vaul-svelte';
 
@@ -28,7 +25,6 @@
 	let avatarUrl = $state(data.profile.avatar_url);
 	let newAvatar = $state(null);
 	let editProfileOpen = $state(false);
-	let updatingProfile = $state(false);
 
 	const timeline = groupByYear(data.timeline, data.shows);
 
@@ -36,16 +32,13 @@
 	onMount(() => (mounted = true));
 
 	async function updateProfile() {
-		updatingProfile = true;
 		editProfileOpen = false;
 		let newAvatarUrl = data.profile.avatar_url;
 		const id = Date.now();
 		if (newAvatar) {
-			const deleteResponse = await supabase
-				.client!.storage.from('avatars')
-				.remove([data.profile.avatar_url]);
+			await supabase.client!.storage.from('avatars').remove([data.profile.avatar_url]);
 
-			const response = await supabase
+			await supabase
 				.client!.storage.from('avatars')
 				.upload(`/${supabase.user?.id}/profile_avatar_${id}.jpg`, newAvatar, {
 					cacheControl: '100',
@@ -65,7 +58,6 @@
 		if (data.profile.username !== usernameValue) {
 			goto('/user/' + usernameValue);
 		}
-		updatingProfile = false;
 
 		avatarUrl = newAvatarUrl;
 		bio = bioValue;
@@ -73,16 +65,16 @@
 	}
 
 	async function follow() {
-		const response = await supabase.client!.from('follows').insert({ following: data.profile.id });
-		following = true;
+		const { error } = await supabase.client!.from('follows').insert({ following: data.profile.id });
+		following = error ? false : true;
 	}
 	async function unfollow() {
-		const response = await supabase
+		const { error } = await supabase
 			.client!.from('follows')
 			.delete()
 			.eq('follower', supabase.user?.id)
 			.eq('following', data.profile.id);
-		following = false;
+		following = error ? true : false;
 	}
 </script>
 
@@ -138,13 +130,12 @@
 		</div>
 	{/if}
 </div>
-{#if mounted}
-	<div
-		class="fixed left-0 right-0 top-0 -z-10 h-[500px] bg-blue-200 lg:hidden"
-		in:fade={{ duration: 200, delay: 400 }}
-	></div>
+{#if (scrollY.current ?? 0) < 0}
+	<div class="fixed left-0 right-0 top-0 -z-10 h-[500px] bg-blue-200 lg:hidden">
+		{scrollY.current}
+	</div>
 {/if}
-<div class="z-20 w-full">
+<div class="z-20">
 	<div class="relative top-0 flex h-60 w-full flex-col gap-4 bg-background lg:h-52">
 		<div class="min-h-32 bg-blue-200"></div>
 		<div class="absolute left-0 top-[76px] flex justify-center lg:top-24">

@@ -7,10 +7,9 @@
 	let mounted = $state(false);
 	const mediaQuery = new MediaQuery(query);
 
-
-    onMount(()=>{
-        mounted = true;
-    })
+	onMount(() => {
+		mounted = true;
+	});
 </script>
 
 {#if mounted}

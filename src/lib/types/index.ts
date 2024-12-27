@@ -1,4 +1,4 @@
-import type { Tables } from '$lib/supabase/types';
+import type { Tables } from '$lib/types/supabase';
 
 export type YearGroup = {
 	year: string;

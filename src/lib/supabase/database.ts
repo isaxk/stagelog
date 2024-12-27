@@ -3,9 +3,9 @@ import type { Tables } from './types';
 
 export async function getDerivedData(timeline: Tables<'log_entries'>[]) {
 	return new Promise<{
-		productions: Tables<'productions'>[],
-		shows: Tables<'shows'>[]
-	}|null>(async (resolve) => {
+		productions: Tables<'productions'>[];
+		shows: Tables<'shows'>[];
+	} | null>(async (resolve) => {
 		if (!supabase.client) {
 			resolve(null);
 			return;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Tables } from '$lib/supabase/types';
+	import type { Tables } from '$lib/types/supabase';
 	import { fade } from 'svelte/transition';
 
 	let { profile }: { profile: Tables<'profiles'> } = $props();

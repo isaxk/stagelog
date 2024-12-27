@@ -1,4 +1,4 @@
-import type { Tables } from '$lib/supabase/types';
+import type { Tables } from '$lib/types/supabase';
 import type { YearGroup } from '$lib/types';
 import groupBy from 'just-group-by';
 

@@ -56,25 +56,29 @@
 >
 	<div class="w-full lg:flex lg:w-[1024px]">
 		<DesktopSidebar />
-		{#key data.url}
-			<div
-				class="w-full flex-grow bg-background pb-20 transition-all lg:min-w-[786px] lg:pb-0 lg:drop-shadow dark:lg:border-x"
-				out:scale={{
-					duration: 150,
-					start: lg.current ? 0.995 : 0.995,
-					easing: cubicIn,
-					delay: 0
-				}}
-				in:scale={{
-					duration: 150,
-					start: lg.current ? 0.995 : 0.99,
-					delay: 150,
-					easing: cubicOut
-				}}
-			>
-				{@render children()}
-			</div>
-		{/key}
+		<div
+			class="flex w-full flex-grow flex-nowrap overflow-hidden bg-background lg:min-w-[786px] lg:border-x"
+		>
+			{#key data.url}
+				<div
+					class="w-full bg-background pb-20 transition-all lg:min-w-[785px] lg:pb-0"
+					out:scale={{
+						duration: 150,
+						start: lg.current ? 0.995 : 0.995,
+						easing: cubicIn,
+						delay: 0
+					}}
+					in:scale={{
+						duration: 150,
+						start: lg.current ? 0.995 : 0.99,
+						delay: 150,
+						easing: cubicOut
+					}}
+				>
+					{@render children()}
+				</div>
+			{/key}
+		</div>
 	</div>
 </div>
 {#if session?.user}

@@ -28,17 +28,11 @@
 		goto('/');
 	}
 
-	beforeNavigate(() => {
-		window.scrollTo({
-			top: 0,
-			behavior: 'smooth'
-		});
-	});
-	onNavigate(() => {
-		window.scrollTo({
-			top: 0
-		});
-	});
+	// beforeNavigate(() => {
+	// 	window.scrollTo({
+	// 		top: 0
+	// 	});
+	// });
 </script>
 
 <Toaster
@@ -52,12 +46,11 @@
 <div
 	class="flex min-h-screen w-full justify-center bg-background text-foreground"
 	data-vaul-drawer-wrapper
-	data-sveltekit-noscroll
 >
 	<div class="w-full lg:flex lg:w-[1024px]">
 		<DesktopSidebar />
 		<div
-			class="flex w-full flex-grow flex-nowrap overflow-hidden bg-background lg:min-w-[786px] lg:border-x"
+			class="flex w-full flex-grow flex-nowrap overflow-x-hidden bg-background lg:min-w-[786px] lg:border-x"
 		>
 			{#key data.url}
 				<div

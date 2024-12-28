@@ -17,7 +17,7 @@
 		class={[
 			'text-nowrap pt-2 text-center transition-all duration-300 ease-in-out',
 			(scrollY.current ?? 0) > 10
-				? 'w-full font-sans text-xl lg:w-10 lg:text-3xl'
+				? 'w-full font-sans text-xl lg:w-10 lg:font-serif lg:text-3xl'
 				: 'w-10 font-serif text-4xl lg:text-3xl'
 		]}
 	>

@@ -50,11 +50,11 @@
 	<div class="w-full lg:flex lg:w-[1024px]">
 		<DesktopSidebar />
 		<div
-			class="flex w-full flex-grow flex-nowrap overflow-x-hidden bg-background lg:min-w-[786px] lg:border-x"
+			class="flex min-h-screen w-full flex-grow flex-nowrap bg-background pr-1 lg:min-w-[786px] lg:border-x"
 		>
 			{#key data.url}
 				<div
-					class="w-full bg-background pb-20 transition-all lg:min-w-[785px] lg:pb-0"
+					class="h-full w-full bg-background pb-20 transition-all lg:min-w-[784px] lg:pb-0"
 					out:scale={{
 						duration: 150,
 						start: lg.current ? 0.995 : 0.995,
@@ -64,7 +64,7 @@
 					in:scale={{
 						duration: 150,
 						start: lg.current ? 0.995 : 0.99,
-						delay: 150,
+						delay: 200,
 						easing: cubicOut
 					}}
 				>

@@ -250,7 +250,7 @@
 	</div>
 	<div class="pt-4 lg:p-4">
 		<div
-			class="min-h-96 border-t border-border bg-background p-4 lg:rounded-md lg:border-x lg:drop-shadow-sm"
+			class="min-h-96 border-t border-border bg-background lg:rounded-md lg:border-x lg:drop-shadow-sm"
 		>
 			{#each timeline as year}
 				<LogListYear {year}>

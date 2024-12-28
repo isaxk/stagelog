@@ -164,7 +164,7 @@
 					</div>
 					{#if lg.current || log.comments || profile === null}
 						<div
-							class="-mt-2 flex w-full items-center gap-2 border-t bg-muted/40 px-1 py-1 pr-2 lg:m-0 lg:flex-col lg:items-end lg:justify-end lg:gap-1 lg:border-none lg:bg-card lg:p-0 lg:text-right"
+							class="-mt-2 flex h-8 w-full items-center gap-2 border-t bg-muted/40 px-1 py-1 pr-2 lg:m-0 lg:h-max lg:flex-col lg:items-end lg:justify-end lg:gap-1 lg:border-none lg:bg-card lg:p-0 lg:text-right"
 						>
 							<Dialog.Root>
 								<Dialog.Trigger

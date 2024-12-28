@@ -74,6 +74,13 @@ const config: Config = {
 				'ios-top': 'max(12px, env(safe-area-inset-top))',
 				'ios-bottom': 'max(12px, env(safe-area-inset-bottom))'
 			},
+			margin: {
+				'ios-top': 'max(12px, env(safe-area-inset-top))',
+				'ios-bottom': 'max(12px, env(safe-area-inset-bottom))'
+			},
+			inset: {
+				'ios-top': 'max(12px, env(safe-area-inset-top))'
+			},
 			height: {
 				drawer: 'calc(95% - max(0px, env(safe-area-inset-top)))'
 			},

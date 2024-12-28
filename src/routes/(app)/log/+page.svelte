@@ -1,45 +1,26 @@
 <script lang="ts">
-	import { beforeNavigate, goto, onNavigate } from '$app/navigation';
-	import CustomButton from '$lib/components/custom-button.svelte';
-	import ShowListItemWrapper from '$lib/components/show-list/add-to-timeline.svelte';
 	import type { Tables } from '$lib/types/supabase';
+
+	import { fade } from 'svelte/transition';
 	import { debounce } from '$lib/utils/time';
-	import { Heart, List } from 'lucide-svelte';
-	import { onMount } from 'svelte';
-	import { Drawer } from 'vaul-svelte';
-	import { toast } from 'svelte-sonner';
+
 	import Page from '$lib/components/page/page.svelte';
 	import AddToTimeline from '$lib/components/show-list/add-to-timeline.svelte';
 	import ShowListItemCard from '$lib/components/show-list/show-list-item-card.svelte';
 	import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
-	import { fade } from 'svelte/transition';
-	import { flip } from 'svelte/animate';
 
 	let { data } = $props();
-
-	const { supabase, mobile } = data;
+	const { supabase } = data;
 
 	let query = $state('');
 	let featured: Promise<Tables<'shows'>[]> = $state(data.featured);
-	let showingFeatured = $state(true);
 	let results: Tables<'shows'>[] = $state([]);
+
 	featured.then((f) => (results = f));
-
-	type SelectedItem = {
-		location: string;
-		show_id: number;
-		rating: number;
-		comments: string;
-		date: string;
-	};
-
-	let selectedItems: SelectedItem[] = $state([]);
-	let subNav = false;
 
 	const search = debounce(async () => {
 		if (query.length < 1) {
 			results = await featured;
-			showingFeatured = true;
 		} else {
 			async function getResults() {
 				const res = await supabase
@@ -53,20 +34,12 @@
 			}
 
 			results = await getResults();
-			showingFeatured = false;
 		}
 	}, 300);
-
-	async function handleTimeline(item: any) {
-		const { data, error } = await supabase.from('log_entries').insert([item]).select('*');
-		return true;
-	}
 </script>
 
 <svelte:head>
-	{#if !mobile}
-		<title>Find Shows - StageLog</title>
-	{/if}
+	<title>Find Shows - StageLog</title>
 </svelte:head>
 
 <Page title="Find Shows">
@@ -87,7 +60,7 @@
 		{:then}
 			{#each results as result, i (result.id)}
 				<div class="flex w-full gap-3" in:fade={{ duration: 200 }}>
-					<AddToTimeline {mobile} show={result} />
+					<AddToTimeline show={result} />
 					<ShowListItemCard show={result} />
 				</div>
 			{/each}

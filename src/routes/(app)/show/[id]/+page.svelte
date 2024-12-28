@@ -1,13 +1,15 @@
 <script lang="ts">
-	import ShowPageLogItem from '$lib/components/log-list/show-page-log-item.svelte';
-	import AddToTimeline from '$lib/components/show-list/add-to-timeline.svelte';
-	import type { Tables } from '$lib/types/supabase';
-	import { ArrowLeft } from 'lucide-svelte';
+	import { fade } from 'svelte/transition';
 	import { onDestroy, onMount } from 'svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { MediaQuery } from 'svelte/reactivity';
 	import { scrollY } from 'svelte/reactivity/window';
-	import { fade, scale } from 'svelte/transition';
+
+	import ShowPageLogItem from '$lib/components/log-list/show-page-log-item.svelte';
+	import AddToTimeline from '$lib/components/show-list/add-to-timeline.svelte';
+	import { ArrowLeft } from 'lucide-svelte';
+
+	import type { Tables } from '$lib/types/supabase';
 
 	let { data } = $props();
 
@@ -78,7 +80,7 @@
 {:else}
 	{#if mounted}
 		<div
-			in:fade={{ duration: 200, delay: 1000 }}
+			in:fade={{ duration: 200, delay: 500 }}
 			class={['fixed -left-10 -right-10 -top-10 -z-10 h-[360px] transition-all']}
 		>
 			<img
@@ -100,21 +102,22 @@
 		<div class="fixed left-0 right-0 top-0 z-40 flex items-center">
 			<div class="absolute left-0 top-0 z-50 pl-4 pt-ios-top">
 				<button
-					class="block rounded-full p-2 transition-all duration-200 {(scrollY.current ?? 0) > 290
-						? 'text-foreground'
-						: 'bg-black/80 text-white drop-shadow-md'}"
+					class="block rounded-full bg-black/80 p-2 text-white transition-all duration-200"
+					style:opacity={1 - ((scrollY.current ?? 0) - 200) / 100}
 					onclick={() => history.back()}
 					><ArrowLeft />
 				</button>
 			</div>
 			<div
 				style:opacity={((scrollY.current ?? 0) - 200) / 100}
-				class="flex h-full w-full items-center gap-4 border-border bg-background px-4 pb-3 pt-ios-top drop-shadow"
+				class="flex h-full w-full items-center gap-4 border-b border-border bg-background px-4 pb-3 pt-ios-top drop-shadow-md"
 			>
-				<div class="w-10"></div>
+				<div class="block rounded-full p-2 transition-all duration-200">
+					<ArrowLeft />
+				</div>
 				<div
 					transition:fade={{ duration: 200 }}
-					class="min-w-0 flex-grow overflow-hidden text-ellipsis text-nowrap pt-1.5 text-lg font-semibold"
+					class="min-w-0 flex-grow overflow-hidden text-ellipsis text-nowrap py-2 text-lg font-semibold"
 				>
 					{data.show.name}
 				</div>
@@ -158,7 +161,7 @@
 					</div>
 				{/if}
 				<div class="-mt-4 h-0"></div>
-				<AddToTimeline show={data.show} mobile={false} bigButton />
+				<AddToTimeline show={data.show} bigButton />
 			</div>
 		</div>
 		<div class="h-5"></div>

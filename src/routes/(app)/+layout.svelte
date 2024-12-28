@@ -4,12 +4,19 @@
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
 
 	import { browser } from '$app/environment';
-	import { goto, disableScrollHandling, onNavigate } from '$app/navigation';
+	import {
+		goto,
+		disableScrollHandling,
+		onNavigate,
+		beforeNavigate,
+		afterNavigate
+	} from '$app/navigation';
 	import { page, navigating } from '$app/state';
 	import { fade, scale } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import { cubicIn, cubicInOut, cubicOut, linear, quadIn, quartOut } from 'svelte/easing';
 	import { MediaQuery } from 'svelte/reactivity';
+	import { scrollY } from 'svelte/reactivity/window';
 
 	let { children, data } = $props();
 
@@ -20,6 +27,18 @@
 	if (browser && !session && !page.url.pathname.includes('user')) {
 		goto('/');
 	}
+
+	beforeNavigate(() => {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
+	});
+	onNavigate(() => {
+		window.scrollTo({
+			top: 0
+		});
+	});
 </script>
 
 <Toaster
@@ -40,11 +59,16 @@
 		{#key data.url}
 			<div
 				class="w-full flex-grow bg-background pb-20 transition-all lg:min-w-[786px] lg:pb-0 lg:drop-shadow dark:lg:border-x"
-				out:scale={{ duration: 150, start: lg.current ? 0.995 : 0.99, easing: cubicIn }}
+				out:scale={{
+					duration: 150,
+					start: lg.current ? 0.995 : 0.995,
+					easing: cubicIn,
+					delay: 0
+				}}
 				in:scale={{
 					duration: 150,
 					start: lg.current ? 0.995 : 0.99,
-					delay: 100,
+					delay: 150,
 					easing: cubicOut
 				}}
 			>

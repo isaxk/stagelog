@@ -31,7 +31,7 @@
 	</a>
 {/snippet}
 <div
-	class="fixed bottom-0 left-0 right-0 flex min-h-14 items-center justify-evenly border-t border-border bg-card py-3 pb-ios-bottom text-accent-foreground drop-shadow lg:hidden"
+	class="fixed bottom-0 left-0 right-0 z-40 flex min-h-14 items-center justify-evenly border-t border-border bg-card py-3 pb-ios-bottom text-accent-foreground drop-shadow lg:hidden"
 >
 	{#if navigating.type}
 		<div

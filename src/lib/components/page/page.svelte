@@ -8,12 +8,21 @@
 </script>
 
 <div
-	class="sticky top-0 z-50 flex min-h-20 items-end bg-background px-4 py-4 pt-ios-top font-serif font-medium transition-all duration-300 lg:text-3xl {(scrollY.current ??
-		0) > 50
-		? 'border-b border-border text-3xl drop-shadow-md sm:drop-shadow-none'
-		: 'text-4xl'}"
+	class="sticky top-0 z-50 flex min-h-20 items-end bg-background px-4 py-4 pt-ios-top font-medium transition-all duration-300 {(scrollY.current ??
+		0) > 10
+		? 'border-b border-border drop-shadow-md sm:drop-shadow-none'
+		: ''}"
 >
-	<div class="flex-grow pt-2">{title}</div>
+	<div
+		class={[
+			'text-nowrap pt-2 text-center transition-all duration-300 ease-in-out',
+			(scrollY.current ?? 0) > 10
+				? 'w-full font-sans text-xl lg:w-10 lg:text-3xl'
+				: 'w-10 font-serif text-4xl lg:text-3xl'
+		]}
+	>
+		{title}
+	</div>
 </div>
 
 <div class="p-4">

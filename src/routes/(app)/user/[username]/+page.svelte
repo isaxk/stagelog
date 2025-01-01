@@ -134,7 +134,7 @@
 		{scrollY.current}
 	</div>
 {/if}
-<div class="z-20">
+<div class="lg:full z-20 w-screen">
 	<div class="relative top-0 flex h-60 w-full flex-col gap-4 bg-background lg:h-52">
 		<div class="min-h-32 bg-blue-200"></div>
 		<div class="absolute left-0 top-[76px] flex justify-center lg:top-24">
@@ -146,7 +146,7 @@
 				/>
 			</div>
 		</div>
-		<div class="flex flex-col gap-4 pl-36 pr-4 lg:flex-row lg:items-center">
+		<div class="flex w-full flex-col gap-4 pl-36 pr-4 lg:flex-row lg:items-center">
 			<div class="hidden flex-grow lg:block">
 				{@render infos()}
 			</div>

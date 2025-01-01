@@ -12,8 +12,8 @@
 	let { children, year, sticky: isSticky = false } = $props();
 </script>
 
-<div class="-mb-ios-top flex flex-col gap-0 bg-gradient-to-b to-zinc-50 pb-8">
-	<div class={['-top-1 left-0 right-0', isSticky && 'sticky z-20']}>
+<div class="-mb-ios-top flex w-full flex-col gap-0 bg-gradient-to-b to-zinc-50 pb-8">
+	<div class={['-top-1 left-0 right-0 w-full', isSticky && 'sticky z-20']}>
 		<div
 			class={[
 				'bg-background pt-ios-top transition-all duration-200',
@@ -40,7 +40,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="flex flex-col gap-3 p-4">
+	<div class="flex w-full flex-col gap-3 p-4">
 		{@render children()}
 	</div>
 </div>

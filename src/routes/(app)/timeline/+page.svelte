@@ -46,7 +46,7 @@
 	<div class="pt-2">Timeline</div>
 </div>
 
-<div class="flex w-full flex-col gap-2">
+<div class="flex w-screen flex-col gap-2 lg:w-full">
 	{#each timeline as year, i (year.year)}
 		<LogListYear {year} sticky>
 			{#each year.items as item, i (item.log_entry.id)}

@@ -10,7 +10,7 @@
 	import { CalendarClock, EllipsisVertical, Pencil, Trash } from 'lucide-svelte';
 	import Calendar from '../ui/calendar/calendar.svelte';
 	import Textarea from '../ui/textarea/textarea.svelte';
-	import { fade } from 'svelte/transition';
+	import { crossfade, fade } from 'svelte/transition';
 	import { MediaQuery } from 'svelte/reactivity';
 	import Skeleton from '../ui/skeleton/skeleton.svelte';
 	import { DateTime } from 'luxon';

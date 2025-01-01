@@ -52,11 +52,11 @@
 </script>
 
 <Page title="Contribute">
-	<form onsubmit={(e) => e.preventDefault}>
-		<div class="flex gap-4">
+	<form onsubmit={(e) => e.preventDefault} class="contents w-full">
+		<div class="flex w-full gap-4">
 			<ImageUploader bind:file={selectedFile} />
 			<div class="flex w-full flex-col gap-2">
-				<div>
+				<div class="w-full">
 					<div>Show name:</div>
 					<input
 						type="text"
@@ -65,7 +65,7 @@
 						placeholder="Hamilton: An American Musical"
 					/>
 				</div>
-				<div>
+				<div class="w-full">
 					<div class="text-sm">Playwright:</div>
 					<input
 						type="text"
@@ -74,7 +74,7 @@
 						placeholder="Lin-Manuel Miranda"
 					/>
 				</div>
-				<div>
+				<div class="w-full">
 					<div class="text-sm">Catagory:</div>
 					<input
 						type="text"
@@ -86,7 +86,7 @@
 			</div>
 		</div>
 		<div class="h-6"></div>
-		<div class="rounded border border-border bg-background p-4 drop-shadow-sm">
+		<div class="w-full rounded border border-border bg-background p-4 drop-shadow-sm">
 			<div class="pb-4 font-semibold">Rules:</div>
 			<ul class="flex flex-col gap-1">
 				<li class="flex items-center gap-1"><Check size={15} /> Must not already be listed</li>
@@ -99,7 +99,7 @@
 			</ul>
 		</div>
 		<div class="h-4"></div>
-		<div class="rounded border border-border bg-background p-4 drop-shadow-sm">
+		<div class="w-full rounded border border-border bg-background p-4 drop-shadow-sm">
 			<div class="pb-4 font-semibold">Moderation Notice:</div>
 			<div>
 				Submissions are subject to moderation. Once your contribution has been submitted it will be

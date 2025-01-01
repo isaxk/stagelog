@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
+	import { crossfade, fade } from 'svelte/transition';
 	import { onDestroy, onMount } from 'svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { MediaQuery } from 'svelte/reactivity';
@@ -24,7 +24,7 @@
 	<div class="flex h-20 items-center pl-4">
 		<button onclick={() => history.back()}><ArrowLeft /></button>
 	</div>
-	<div class="p-4">
+	<div class="w-full p-4">
 		<div class="flex h-full w-full flex-col gap-4 sm:flex-row">
 			<img
 				src={data.show.image_url}
@@ -90,16 +90,15 @@
 			/>
 		</div>
 	{/if}
-	<div class="relative h-[360px] w-full">
+	<div class="relative h-[360px] w-screen">
 		{#if mounted}
 			<img
-				transition:fade={{ duration: 200, delay: 150, easing: cubicOut }}
 				src={data.show.image_url}
 				alt="Artwork"
 				class="z-0 h-full w-full object-cover transition-all"
 			/>
 		{/if}
-		<div class="fixed left-0 right-0 top-0 z-40 flex items-center">
+		<div class="fixed left-0 right-0 top-0 z-40 flex w-full items-center">
 			<div class="absolute left-0 top-0 z-50 pl-4 pt-ios-top">
 				<button
 					class="block rounded-full bg-black/80 p-2 text-white transition-all duration-200"

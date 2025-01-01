@@ -61,7 +61,6 @@
 
 		avatarUrl = newAvatarUrl;
 		bio = bioValue;
-		console.log(response);
 	}
 
 	async function follow() {

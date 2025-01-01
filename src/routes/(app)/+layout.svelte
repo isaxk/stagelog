@@ -28,6 +28,13 @@
 		goto('/');
 	}
 
+	afterNavigate(() => {
+		disableScrollHandling();
+		setTimeout(() => {
+			scrollTo({ top: 0, behavior: 'instant' });
+		}, 150);
+	});
+
 	// beforeNavigate(() => {
 	// 	window.scrollTo({
 	// 		top: 0
@@ -50,7 +57,7 @@
 	<div class="w-full lg:flex lg:w-[1024px]">
 		<DesktopSidebar />
 		<div
-			class="flex min-h-screen w-full flex-grow flex-nowrap bg-background pr-1 lg:min-w-[786px] lg:border-x"
+			class="flex min-h-screen w-full flex-grow flex-nowrap bg-background lg:min-w-[786px] lg:border-x lg:pr-1"
 		>
 			{#key data.url}
 				<div
@@ -80,6 +87,9 @@
 
 <style lang="postcss">
 	:global(body) {
-		@apply overflow-x-hidden overflow-y-scroll bg-background;
+		@apply overflow-x-hidden bg-background;
+	}
+	:global(html) {
+		scrollbar-gutter: stable;
 	}
 </style>

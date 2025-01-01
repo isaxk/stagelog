@@ -13,7 +13,6 @@ export const load: LayoutServerLoad = async ({ params, locals: { supabase, safeG
 		.order('date', { ascending: false });
 	const logs = logResponse.data ?? [];
 
-	console.log(logs.map((o: Tables<'log_entries'>) => o.user_id));
 	const profilesRes = await supabase
 		.from('profiles')
 		.select('*')

@@ -6,7 +6,6 @@ export const load: LayoutServerLoad = async ({ params, locals: { supabase, safeG
 	const session = await safeGetSession();
 
 	const { data, error } = await supabase.from('profiles').select('*').eq('username', username);
-	console.log(data, error);
 	const profile = data ? data[0] : null;
 
 	const timelineRes = await supabase.from('log_entries').select('*').eq('user_id', profile?.id);
